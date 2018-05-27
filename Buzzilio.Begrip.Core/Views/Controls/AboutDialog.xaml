@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Buzzilio.Begrip.Core.Views.Controls.AboutDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:Buzzilio.Begrip.Core.Views.Controls"
+             Name="_AboutDialog"
+             mc:Ignorable="d" 
+             MaxWidth="300"
+             MaxHeight="300"   
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="16">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="55*" />
+            <RowDefinition Height="12*" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1">
+            <ListView Margin="0"
+                      Padding="0"
+                      Name="_libraryListView" 
+                      ItemsSource="{Binding LibraryCollection}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel Margin="0">
+                            <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}" Padding="0" Margin="0">
+                                <Hyperlink Command="{Binding DataContext.OpenUrlCommand, ElementName=_AboutDialog}"
+                                            CommandParameter="{Binding LibrarySourceLink}">
+                                   <Hyperlink.Inlines>
+                                        <Run Text="{Binding LibraryName}" FontWeight="Bold" FontSize="10"/>
+                                   </Hyperlink.Inlines>
+                               </Hyperlink>
+                            </TextBlock>
+                            <TextBlock Text=" by " FontSize="10" Padding="0" Margin="0"/>
+                            <TextBlock Text="{Binding LibraryAuthor}" FontSize="10" Padding="0" Margin="0"/>
+                            <TextBlock Text=" (" FontSize="10" Padding="0" Margin="0"/>
+                            <TextBlock Text="{Binding LibraryLicense}" FontSize="10" Padding="0" Margin="0"/>
+                            <TextBlock Text=")" FontSize="10" Padding="0" Margin="0"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <Button IsDefault="True" Content="OK" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding CloseAboutDialogCommand}"
+                    CommandParameter="{Binding ElementName=_AboutDialog}" HorizontalAlignment="Center" Margin="93,5,93,0" Width="80"/>
+        </StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="200*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Begrip Miner" Grid.Column="1" Margin="5,10,0,27" FontSize="16" Padding="0" FontWeight="Bold" HorizontalAlignment="Left" Width="Auto"/>
+            <Label Content="Libraries:" Grid.Column="1" Margin="5,35,5,10" Padding="0" FontSize="11"/>
+            <Grid>
+                <Border BorderThickness="0" 
+                        Grid.Row="0"
+                        CornerRadius="10,10,0,0"
+                        Height="48"
+                        Width="48"
+                        BorderBrush="Transparent" 
+                        Margin="10,0">
+
+                    <Border.Background>
+                        <ImageBrush ImageSource="{Binding AppIcon}"/>
+                    </Border.Background>
+                </Border>
+            </Grid>
+            <Label Content="{Binding AppVersion}" ContentStringFormat="v{0}" Grid.Column="1" Margin="104,8,0,0" FontSize="13" Padding="0,5,0,0" HorizontalAlignment="Left" Width="Auto" Height="25" VerticalAlignment="Top"/>
+        </Grid>
+    </Grid>
+</UserControl>

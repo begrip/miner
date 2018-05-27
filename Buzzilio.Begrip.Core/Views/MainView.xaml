@@ -1,0 +1,202 @@
+﻿<Controls:MetroWindow x:Class="Buzzilio.Begrip.Core.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" 
+        xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        mc:Ignorable="d"
+        xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:dockablz="clr-namespace:Dragablz.Dockablz;assembly=Dragablz"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:attachedProps="clr-namespace:Buzzilio.Begrip.Utilities.AttachedProps;assembly=Buzzilio.Begrip.Utilities"
+        xmlns:partialViews="clr-namespace:Buzzilio.Begrip.Core.Views.PartialViews"
+        xmlns:partialViewModels="clr-namespace:Buzzilio.Begrip.Core.ViewModels.PartialViewModels"
+        xmlns:viewModelInterfaces="clr-namespace:Buzzilio.Begrip.Core.ViewModels.Interfaces"
+        xmlns:localModels="clr-namespace:Buzzilio.Begrip.Core.Models.Local"
+        GlowBrush="{DynamicResource HighlightBrush}"
+        BorderThickness="1"
+        Name="_MainView"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        attachedProps:WindowClose.CloseCommand="{Binding ProcessExitRequestCommand}" 
+        ShowInTaskbar="{Binding SystemTrayViewModel.ShowInTaskbar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"              
+        WindowState="{Binding SystemTrayViewModel.WindowState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        Title="{Binding AppHeaderMessage}" 
+        Height="780" 
+        Width="900" 
+        MaxWidth="900"
+        MaxHeight="780"              
+        MinWidth="720"
+        MinHeight="640">
+
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+            <DataTemplate DataType="{x:Type partialViewModels:MainTabViewModel}">
+                <partialViews:MainTabView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type partialViewModels:ConfigurationTabViewModel}">
+                <partialViews:ConfigurationTabView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type partialViewModels:SettingsTabViewModel}">
+                <partialViews:SettingsTabView/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+
+
+    <materialDesign:DialogHost Identifier="{Binding GenericDialogHostIdentier}">
+        <interactivity:Interaction.Triggers>
+            <interactivity:EventTrigger EventName="Loaded">
+                <interactivity:InvokeCommandAction Command="{Binding OpenDisclaimerDialogCommand}" />
+            </interactivity:EventTrigger>
+        </interactivity:Interaction.Triggers>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="68"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <dockablz:Layout Grid.Row="1">
+                <dragablz:TabablzControl BorderThickness="0"
+                                     Margin="0,-1,0,1" 
+                                     ShowDefaultCloseButton="True" 
+                                     FixedHeaderCount="1"
+                                     ClosingItemCallback="{Binding ClosingTabItemHandler}"    
+                                     SelectedItem="{Binding SelectedTabViewModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   
+                                     ItemsSource="{Binding TabViewModels}">
+
+                    <dragablz:TabablzControl.HeaderItemTemplate>
+                        <DataTemplate DataType="{x:Type viewModelInterfaces:ITabViewModel}">
+                            <TextBlock Text="{Binding Header}" Name="_TabHeader" />
+                        </DataTemplate>
+                    </dragablz:TabablzControl.HeaderItemTemplate>
+
+                    <!--<dragablz:TabablzControl.InterTabController>
+                        <dragablz:InterTabController />
+                    </dragablz:TabablzControl.InterTabController>-->
+
+                </dragablz:TabablzControl>
+            </dockablz:Layout>
+            <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}" Grid.RowSpan="2">
+                <materialDesign:DrawerHost.LeftDrawerContent>
+                    <ListBox x:Name="NavigationMenuListBox" 
+                         Margin="0,68,0,16" 
+                         SelectedItem="{Binding SelectedNavigationMenuItem, 
+                                                Mode=TwoWay,
+                                                UpdateSourceTrigger=PropertyChanged}"                         
+                         ItemsSource="{Binding NavigationMenuItems}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="localModels:NavigationMenuItem">
+                                <Grid Height="25" Width="160" Background="Transparent">
+                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:EventTrigger EventName="MouseDown">
+                                            <interactivity:InvokeCommandAction Command="{Binding DataContext.ProcessNavigationMenuItemCommand, ElementName=_MainView}"
+                                                                           CommandParameter="{Binding Name}" />
+                                        </interactivity:EventTrigger>
+                                    </interactivity:Interaction.Triggers>
+                                    <materialDesign:PackIcon Kind="{Binding Icon}" Height="26" Width="26"/>
+                                    <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding Name}" Height="Auto" Margin="45,2,32,0" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </materialDesign:DrawerHost.LeftDrawerContent>
+                <StatusBar Height="25" 
+                           VerticalAlignment="Bottom" 
+                           Background="{DynamicResource WindowTitleColorBrush}">
+                    <StatusBarItem>
+                        <TextBlock Foreground="Silver" Text="{Binding StatusBarText}" HorizontalAlignment="Left" Padding="0" VerticalAlignment="Center" Margin="5,0" FontSize="10" />
+                    </StatusBarItem>
+                    <StatusBarItem>
+                        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                     Visibility="{Binding IsMining, Converter={StaticResource BoolToVis}}"
+                                     Value="50"
+                                     IsIndeterminate="True" />
+                    </StatusBarItem>
+                    <StatusBarItem HorizontalAlignment="Right">
+                        <StackPanel Orientation="Horizontal">
+                            <StatusBarItem>
+                                <TextBlock Foreground="Silver" Text="{Binding AppVersionStatusText}" HorizontalAlignment="Right" Padding="0" VerticalAlignment="Center" Margin="5,0" FontSize="10" />
+                            </StatusBarItem>
+                        </StackPanel>
+                    </StatusBarItem>
+                </StatusBar>
+            </materialDesign:DrawerHost>
+            <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                          Mode="PrimaryMid" Grid.Row="0">
+                <DockPanel>
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                              IsChecked="{Binding NavigationMenuIsOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              x:Name="MenuToggleButton"/>
+
+                    <materialDesign:PopupBox HorizontalAlignment="Right" 
+                                             DockPanel.Dock="Right" 
+                                             Height="22"
+                                             VerticalAlignment="Center"
+                                             PlacementMode="BottomAndAlignRightEdges" 
+                                             Visibility="Visible">
+                        <StackPanel Margin="2" Orientation="Vertical">
+                            <Button Margin="6,0,6,0"
+                                    Command="{Binding ProcessOpenAboutDialogRequestCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="CommentQuestionOutline" Height="20" Width="20"/>
+                                    <TextBlock
+                                    Margin="8,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="About" />
+                                </StackPanel>
+                            </Button>
+                            <Button Margin="6,0,6,0"
+                                    Command="{Binding ProcessExitRequestCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="ExitToApp" Height="20" Width="20"/>
+                                    <TextBlock
+                                    Margin="8,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="Exit" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+
+                </DockPanel>
+            </materialDesign:ColorZone>
+            <materialDesign:Snackbar Grid.Row="1"
+                                 IsActive="{Binding SnackbarIsActive}"
+                                 x:Name="MessageSnackbar">
+                <materialDesign:SnackbarMessage Content="{Binding SnackbarMessage}"
+                                            ActionCommand="{Binding HideSnackbarCommand}"
+                                            ActionContent="Close" />
+            </materialDesign:Snackbar>
+            <tb:TaskbarIcon
+                    LeftClickCommand="{Binding SystemTrayViewModel.LeftClickCommand}"
+                    Visibility="{Binding SystemTrayViewModel.IsVisible}"
+                    IconSource="{Binding AppIcon}" >
+                <tb:TaskbarIcon.TrayToolTip>
+                    <Border
+                      Background="White"
+                      BorderBrush="Black"
+                      BorderThickness="2"
+                      CornerRadius="4"
+                      Opacity="0.8"
+                      Padding="10"  
+                      Width="Auto"
+                      Height="Auto">
+                        <TextBlock
+                            Foreground="Black"
+                            Text="{Binding SystemTrayViewModel.TooltipMessage}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Border>
+                </tb:TaskbarIcon.TrayToolTip>
+            </tb:TaskbarIcon>
+        </Grid>
+    </materialDesign:DialogHost>
+</Controls:MetroWindow>

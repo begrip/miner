@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Buzzilio.Begrip.Core.Views.Controls.CryptoCardControl"
+             x:Name="_CryptoCardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:Buzzilio.Begrip.Core.Converters"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             Height="120" 
+             Width="120"
+             Background="White"
+             Margin="2"
+             Cursor="Hand">
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+
+            <converters:CryptoLogoToCachedBitmapConverter x:Key="CryptoLogoToCachedBitmapConverter"/>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Buzzilio.Begrip.Core;component/views/Styles/CryptoCardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <interactivity:Interaction.Triggers>
+        <interactivity:EventTrigger EventName="MouseDown">
+            <interactivity:InvokeCommandAction Command="{Binding DataContext.CryptoCardControlViewModel.EditConfigurationCommand, ElementName=_MainTabView}" 
+                                               CommandParameter="{Binding DataContext, ElementName=_CryptoCardControl}"/>
+        </interactivity:EventTrigger>
+    </interactivity:Interaction.Triggers>
+
+    <Border Style="{DynamicResource _CryptoCardEditStyle}">
+        <Grid Margin="0"
+              Name="_CryptoCardControlMainGrid"  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="0,0,0,2">
+                <Border BorderThickness="0" 
+                        Grid.Row="0"
+                        CornerRadius="10,10,0,0"
+                        Height="64"
+                        Width="64"
+                        BorderBrush="Transparent" 
+                        Margin="10,0">
+
+                    <Border.Background>
+                        <ImageBrush ImageSource="{Binding CryptoLogo, Converter={StaticResource CryptoLogoToCachedBitmapConverter}}"/>
+                    </Border.Background>
+                </Border>
+            </Grid>
+            <Grid Margin="0,70,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <materialDesign:PackIcon Kind="Pencil" Margin="92,10,0,0" Foreground="Gray" Visibility="Hidden" />
+            <TextBlock
+                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                 Margin="7,83,61,17">
+                 <Hyperlink Command="{Binding DataContext.CryptoCardControlViewModel.OpenUrlCommand, ElementName=_MainTabView}"
+                            CommandParameter="{Binding CryptoWebsite}">
+                   <Hyperlink.Inlines>
+                        <Run Text="{Binding CryptoSymbol}"/>
+                   </Hyperlink.Inlines>
+               </Hyperlink>
+            </TextBlock>
+            <TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                Text="{Binding CryptoName}" Margin="7,96,3,4" />
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,358 @@
+﻿<UserControl x:Class="Buzzilio.Begrip.Core.Views.PartialViews.ConfigurationTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:Buzzilio.Begrip.Core.Converters"
+             mc:Ignorable="d"
+             Height="Auto"
+             Width="Auto"
+             d:DesignHeight="720" d:DesignWidth="900">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:CryptoLogoToCachedBitmapConverter x:Key="CryptoLogoToCachedBitmapConverter"/>
+            <converters:AlgorithmIdToAlgorithmConverter x:Key="AlgorithmIdToAlgorithmConverter"/>
+            <converters:BinaryToVisibilityConverter x:Key="BinaryToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              MaxHeight="120">
+            <materialDesign:Card
+                MaxHeight="100"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                Margin="10,10,10,0" VerticalAlignment="Stretch">
+                <Grid Grid.Row="0"
+                      Height="80"
+                      MaxHeight="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="8*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Border BorderThickness="0" 
+                        Grid.Row="0"
+                        Height="64"
+                        Width="64"
+                        BorderBrush="Transparent">
+
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding SelectedConfiguration.Crypto.CryptoLogo, Converter={StaticResource CryptoLogoToCachedBitmapConverter}}"/>
+                            </Border.Background>
+                        </Border>
+                    </Grid>
+                    <TextBlock Grid.Column="1" 
+                           Style="{StaticResource MaterialDesignTitleTextBlock}" 
+                           Text="{Binding SelectedConfiguration.Crypto.CryptoName}"
+                           Width="Auto" 
+                           Height="Auto" 
+                           Margin="10,13,0,37" HorizontalAlignment="Left" />
+                    <TextBlock Grid.Column="1" 
+                           Text="{Binding SelectedConfiguration.Crypto.CryptoSymbol, StringFormat=({0})}" 
+                           Style="{StaticResource MaterialDesignSubheadingTextBlock}" 
+                           HorizontalAlignment="Left" 
+                           Margin="10,41,0,0" 
+                           Width="Auto" 
+                           Height="Auto"
+                           VerticalAlignment="Top"/>
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="400"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" 
+                  Height="Auto" 
+                  VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="34*"/>
+                    <RowDefinition Height="117*"/>
+                </Grid.RowDefinitions>
+                <materialDesign:Card Margin="0,5,10,0"
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                     Padding="12" VerticalAlignment="Stretch">
+                    <Grid>
+                        <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                Command="{Binding ToggleMinersCommand}"
+                                ToolTip="{Binding StartTooltip}" Margin="267,0,-7,0">
+                            <materialDesign:PackIcon
+                                Kind="{Binding PlayIcon}"
+                                Height="36"
+                                Width="36" />
+                        </Button>
+                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                Command="{Binding ResetTimerCommand}"
+                                IsEnabled="{Binding UIIsUnlocked}"
+                                HorizontalAlignment="Left"
+                                ToolTip="Reset timer" Margin="235,8,0,8">
+                            <materialDesign:PackIcon
+                                    Kind="BackupRestore"
+                                    Height="24"
+                                    Width="24" />
+                        </Button>
+                        <TextBlock
+    Style="{StaticResource MaterialDesignTitleTextBlock}" Margin="10,13,210,13"><Run Text="{Binding RunningTime}"/></TextBlock>
+                    </Grid>
+                </materialDesign:Card>
+                <materialDesign:Card
+                    Margin="0,5,10,0"
+                    Background="{DynamicResource MaterialDesignBackground}" Grid.Row="1" VerticalAlignment="Top" Height="Auto">
+                    <StackPanel>
+                        <Expander HorizontalAlignment="Stretch"
+                            Header="Miner Output"
+                            IsExpanded="true">
+                            <Grid Margin="24,8,24,16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="25"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="Total Hashrate:" Margin="-4,0,9,0" />
+                                    <Label Content="{Binding MinerOutput.TotalHashrate}" Grid.ColumnSpan="2" Margin="102,0,0,0" />
+                                    <Label Grid.Column="2" Content="Total Shares:" Margin="6,0,5,0" />
+                                    <Label Grid.Column="3" Content="{Binding MinerOutput.TotalShares}" />
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="Stratum Difficulty:" Margin="-4,0,10,0" />
+                                    <Label Content="{Binding MinerOutput.StratumDifficulty}" Grid.ColumnSpan="2" Margin="102,0,0,0" />
+                                    <Label Grid.Column="2" Content="Accepted Shares:" Margin="6,0,5,0" />
+                                    <Label Grid.Column="3" Content="{Binding MinerOutput.AcceptedShares}" />
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="Block Difficulty:" Margin="-4,0,10,0" />
+                                    <Label Content="{Binding MinerOutput.BlockDifficulty}" Grid.ColumnSpan="2" Margin="102,0,0,0" />
+                                    <Label Grid.Column="2" Content="Stale Shares:" Margin="6,0,5,0" />
+                                    <Label Grid.Column="3" Content="{Binding MinerOutput.StaleShares}" />
+                                </Grid>
+                            </Grid>
+                        </Expander>
+                        <Border
+                            Background="{DynamicResource MaterialDesignDivider}"
+                            Height="1"
+                            HorizontalAlignment="Stretch"
+                            SnapsToDevicePixels="True" />
+                        <Expander
+                            HorizontalAlignment="Stretch"
+                            Header="Console" IsExpanded="True">
+                            <ListBox FontSize="10" 
+                                                           Background="#34495E"
+                                                           Foreground="White" 
+                                                           ItemsSource="{Binding ConsoleOutput}" 
+                                                           HorizontalAlignment="Left" 
+                                                           Height="164" 
+                                                           Margin="10,0,10,10" 
+                                                           Width="360">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Height" Value="15" />
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Foreground" Value="White" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </Expander>
+                        <Border Background="{DynamicResource MaterialDesignDivider}"
+                            Height="1"
+                            HorizontalAlignment="Stretch"
+                            SnapsToDevicePixels="True" />
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+            <Grid HorizontalAlignment="Left" Margin="10,0,0,10" Width="480">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <materialDesign:Card Grid.Column="0"
+                                     Margin="5,5,0,0"
+                    Background="{DynamicResource MaterialDesignBackground}" Grid.Row="1" Height="Auto">
+                    <StackPanel>
+                        <Expander HorizontalAlignment="Stretch"
+                            Header="Miner Settings"
+                            IsEnabled="{Binding UIIsUnlocked}"
+                            IsExpanded="true">
+                            <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                                <Grid>
+                                    <ComboBox materialDesign:HintAssist.Hint="Mining Algorithm"
+                                        IsEditable="False"
+                                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                        Margin="0,8,0,9"
+                                        HorizontalAlignment="Left" 
+                                        Width="Auto"
+                                        ItemsSource="{Binding SelectedConfiguration.Crypto.CryptoAlgorithmCollection}"
+                                        SelectedItem="{Binding SelectedConfiguration.AlgorithmId, Converter={StaticResource AlgorithmIdToAlgorithmConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
+                                        DisplayMemberPath="AlgorithmName">
+                                        <ComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel />
+                                            </ItemsPanelTemplate>
+                                        </ComboBox.ItemsPanel>
+                                    </ComboBox>
+                                    <Slider x:Name="_intensitySlider"
+                                        Visibility="{Binding SelectedConfiguration.SupportsParams, Converter={StaticResource BinaryToVisibilityConverter}}"
+                                        Minimum="0"
+                                        Maximum="21"
+                                        TickFrequency="0.1"
+                                        IsSelectionRangeEnabled="True"   
+                                        Style="{StaticResource MaterialDesignDiscreteSlider}"
+                                        ToolTip="Intensity (0 for auto)"
+                                        Value="{Binding SelectedConfiguration.Intensity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Margin="130,0,0,0" 
+                                        HorizontalAlignment="Left"
+                                        Width="130" 
+                                        Height="51" 
+                                        VerticalAlignment="Top"/>
+                                    <Slider x:Name="_gpuStatsSlider"
+                                        Visibility="{Binding SelectedConfiguration.SupportsParams, Converter={StaticResource BinaryToVisibilityConverter}}"
+                                        Minimum="0"
+                                        Maximum="99"
+                                        TickFrequency="1"
+                                        IsSelectionRangeEnabled="True"
+                                        Style="{StaticResource MaterialDesignDiscreteSlider}"
+                                        ToolTip="GPU Stats (in seconds)"
+                                        Value="{Binding SelectedConfiguration.GPUStats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Margin="287,0,-7,0"
+                                        Width="130" 
+                                        HorizontalAlignment="Left" 
+                                        Height="51" 
+                                        VerticalAlignment="Top" />
+                                    <Label Content="{Binding Value, ElementName=_intensitySlider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding SelectedConfiguration.SupportsParams, Converter={StaticResource BinaryToVisibilityConverter}}"
+                                        Opacity="0.75"
+                                        FontSize="11"
+                                        Width="Auto"
+                                        HorizontalAlignment="Left" 
+                                        Margin="232,52,0,-10"
+                                        Padding="0"   
+                                        VerticalAlignment="Top"/>
+                                    <Label Content="{Binding Value, ElementName=_gpuStatsSlider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding SelectedConfiguration.SupportsParams, Converter={StaticResource BinaryToVisibilityConverter}}"
+                                        Opacity="0.75"
+                                        FontSize="11"
+                                        Width="Auto"
+                                        HorizontalAlignment="Left" 
+                                        Margin="395,52,0,-10" 
+                                        Padding="0" 
+                                        VerticalAlignment="Top"/>
+                                    <Label Content="Mining Intensity"
+                                        Visibility="{Binding SelectedConfiguration.SupportsParams, Converter={StaticResource BinaryToVisibilityConverter}}"   
+                                        FontSize="10"
+                                        Width="Auto"
+                                        HorizontalAlignment="Left" 
+                                        Margin="176,7,0,0" 
+                                        VerticalAlignment="Top"/>
+                                    <Label Content="GPU Stats"
+                                        Visibility="{Binding SelectedConfiguration.SupportsParams, Converter={StaticResource BinaryToVisibilityConverter}}"   
+                                        FontSize="10"   
+                                        Width="Auto"
+                                        HorizontalAlignment="Left" 
+                                        Margin="361,8,-4,0" 
+                                        VerticalAlignment="Top"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+                        <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                        <Expander Header="Client Configuration"
+                            IsExpanded="true"
+                            IsEnabled="{Binding UIIsUnlocked}">
+                            <Grid Margin="24,8,24,16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    Grid.Row="0"
+                                    Text="{Binding SelectedConfiguration.PoolURL, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
+                                    materialDesign:HintAssist.Hint="Pool URL"
+                                    Width="Auto"
+                                    Margin="0,10" />
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    Grid.Row="1" 
+                                    Margin="0, 10" 
+                                    Text="{Binding SelectedConfiguration.Username,UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"     
+                                    materialDesign:HintAssist.Hint="Username"   
+                                    TextWrapping="Wrap"
+                                    VerticalScrollBarVisibility="Auto"
+                                    VerticalAlignment="Top"
+                                    AcceptsReturn="True"
+                                    Height="Auto"
+                                    MaxHeight="80" />
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    Grid.Row="2" 
+                                    Margin="0 ,10"   
+                                    Text="{Binding SelectedConfiguration.Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
+                                    materialDesign:HintAssist.Hint="Password"
+                                    TextWrapping="Wrap"
+                                    VerticalScrollBarVisibility="Auto"
+                                    VerticalAlignment="Top"
+                                    AcceptsReturn="True"
+                                    Height="Auto"
+                                    MaxHeight="80" />
+                            </Grid>
+                        </Expander>
+                        <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Margin="5,5,0,0"
+                                     Height="Auto"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                    Padding="15" VerticalAlignment="Stretch"/>
+                <Grid IsEnabled="{Binding UIIsUnlocked}">
+                    <RepeatButton Width="100"
+                          Command="{Binding SaveConfigurationCommand}"
+                          ToolTip="Save current settings" 
+                          Margin="369,28,11,15"
+                          Content="Save"/>
+                    <RepeatButton Style="{StaticResource MaterialDesignRaisedLightButton}"
+                          Command="{Binding LoadDefaultConfigurationCommand}"
+                          ToolTip="Reset settings to default" 
+                          Margin="20,28,375,15"
+                          Content="Default"/>
+                    <RepeatButton Style="{StaticResource MaterialDesignRaisedLightButton}"
+                Command="{Binding CancelConfigurationChangesCommand}"
+                IsEnabled="{Binding SelectedConfiguration.HasChanges}"          
+                ToolTip="Discard pending changes" 
+                Margin="277,28,118,15"
+                Content="Discard"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</UserControl>

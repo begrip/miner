@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Buzzilio.Begrip.Core.Views.PartialViews.MainTabView"
+             x:Name="_MainTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Buzzilio.Begrip.Core.Views.PartialViews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:Buzzilio.Begrip.Core.Views.Controls"
+             mc:Ignorable="d" 
+             Margin="10"
+             Height="Auto" 
+             Width="Auto"
+             d:DesignHeight="720" d:DesignWidth="900">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <materialDesign:Chip
+                  Grid.Row="0"  
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left"
+                  Margin="0,10"
+                  Height="Auto"
+                  Content="Cryptocurrencies"
+                  Cursor="Arrow"  
+                  Icon="{Binding DefaultCryptoCollectionListView.Count}" />
+        <materialDesign:PackIcon Grid.Row="0" 
+                                 Kind="Magnify" 
+                                 Margin="0,8,165,0" 
+                                 Height="26" 
+                                 Width="26"
+                                 Foreground="{DynamicResource WindowTitleColorBrush}"
+                                 HorizontalAlignment="Right" />
+        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Grid.Row="0"
+                     Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Search"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Right"
+                     Margin="0,-7,10,0"
+                     Height="Auto"
+                     Width="150"/>
+        <ScrollViewer x:Name="_ScrollViewer"
+                      Grid.Row="1"
+                      VerticalScrollBarVisibility="Hidden" 
+                      HorizontalScrollBarVisibility="Disabled" 
+                      Margin="0,5,0,0">
+            <ItemsControl x:Name="_ItemsControl" 
+                      ItemsSource="{Binding CryptoCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel x:Name="CryptoWrapPanel" 
+                               Orientation="Horizontal" 
+                               FlowDirection="LeftToRight"
+                               Background="Transparent">
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:CryptoCardControl/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
