@@ -1,0 +1,2178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?define Buzzilio.Begrip.Miner_TargetDir=$(var.Buzzilio.Begrip.Miner.TargetDir)?>
+	<?define Buzzilio.Begrip.Database_TargetDir=$(var.Buzzilio.Begrip.Database.TargetDir)?>
+	<?define Buzzilio.Begrip.Infrastructure_TargetDir=$(var.Buzzilio.Begrip.Infrastructure.TargetDir)?>
+	<?define Buzzilio.Begrip.Resources_TargetDir=$(var.Buzzilio.Begrip.Resources.TargetDir)?>
+	<?define Buzzilio.Begrip.Utilities_TargetDir=$(var.Buzzilio.Begrip.Utilities.TargetDir)?>
+	<?define Buzzilio.Begrip.Core_TargetDir=$(var.Buzzilio.Begrip.Core.TargetDir)?>
+	<?define Buzzilio.Begrip.Resources_ProjectDir=$(var.Buzzilio.Begrip.Resources.ProjectDir)?>
+
+	<Product Id="*" Name="Begrip Miner" Language="1033" Version="0.0.1" Manufacturer="Buzzilio" UpgradeCode="b7175f3f-7c2b-4350-b2cd-8c7f90ef5f7e">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+		<Icon Id="icon.ico" SourceFile="icon.ico"/>
+		<Property Id="ARPPRODUCTICON" Value="icon.ico" />
+		<WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="banner_side.bmp" />
+		<WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="Begrip Miner Installer" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentRef Id="ApplicationShortcutDesktop" />
+			<ComponentGroupRef Id="Images_Icons_32_files" />
+			<ComponentGroupRef Id="Images_CryptoLogos_64_files" />
+			<ComponentGroupRef Id="Images_Icons_64_files" />
+			<ComponentGroupRef Id="Images_Icons_48_files" />
+			<ComponentGroupRef Id="Images_CryptoLogos_32_files" />
+			<ComponentGroupRef Id="x86_files" />
+			<ComponentGroupRef Id="x64_files" />
+			<ComponentGroupRef Id="Scripts_Creation_files" />
+			<ComponentGroupRef Id="CCMiner_files" />
+			<ComponentGroupRef Id="Legal_files" />
+		</Feature>
+
+		<UIRef Id="WixUI_Minimal" />
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="DesktopFolder" Name="Desktop">
+				<Component Id="ApplicationShortcutDesktop" Guid="55D6FAFF-6699-4759-BF50-A5202AA362BF">
+					<Shortcut Id="ApplicationDesktopShortcut" Name="Begrip Miner" Description="Begrip Miner" Target="[INSTALLFOLDER]Buzzilio.Begrip.Core.exe" WorkingDirectory="MYAPPDIRPROPERTY" />
+					<RemoveFolder Id="DesktopFolder" On="uninstall" />
+					<RegistryValue Root="HKCU" Key="Software/BegripMiner" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+				</Component>
+			</Directory>
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Begrip Miner">
+					<Directory Id="Images" Name="Images">
+						<Directory Id="Images_CryptoLogos" Name="CryptoLogos">
+							<Directory Id="Images_CryptoLogos_64" Name="64" />
+							<Directory Id="Images_CryptoLogos_32" Name="32" />
+						</Directory>
+						<Directory Id="Images_Icons" Name="Icons">
+							<Directory Id="Images_Icons_32" Name="32" />
+							<Directory Id="Images_Icons_48" Name="48" />
+							<Directory Id="Images_Icons_64" Name="64" />
+						</Directory>
+					</Directory>
+					<Directory Id="DIR_x86" Name="x86" />
+					<Directory Id="DIR_x64" Name="x64" />
+					<Directory Id="Scripts" Name="Scripts">
+						<Directory Id="Scripts_Creation" Name="Creation" />
+					</Directory>
+					<Directory Id="CCMiner" Name="CCMiner" />
+					<Directory Id="Legal" Name="Legal" />
+				</Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<Component Id="Buzzilio.Begrip.Core.exe" Guid="aa3f9648-3eb7-41ab-aaf6-721ff661b853">
+				<File Id="Buzzilio.Begrip.Core.exe" Name="Buzzilio.Begrip.Core.exe" Source="$(var.Buzzilio.Begrip.Core_TargetDir)Buzzilio.Begrip.Core.exe" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Core.exe.config" Guid="fafdb093-c846-422e-8cd7-f5c1a0a17755">
+				<File Id="Buzzilio.Begrip.Core.exe.config" Name="Buzzilio.Begrip.Core.exe.config" Source="$(var.Buzzilio.Begrip.Core_TargetDir)Buzzilio.Begrip.Core.exe.config" />
+			</Component>
+			<Component Id="CommonServiceLocator.dll" Guid="fb9fbb76-1616-4520-baac-72dd2b7b447f">
+				<File Id="CommonServiceLocator.dll" Name="CommonServiceLocator.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)CommonServiceLocator.dll" />
+			</Component>
+			<Component Id="Dragablz.dll" Guid="6274d66b-5f44-4b30-b7b8-8eb453613312">
+				<File Id="Dragablz.dll" Name="Dragablz.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)Dragablz.dll" />
+			</Component>
+			<Component Id="EntityFramework.dll" Guid="0acf2ba8-a2ce-4b2c-a5a8-3874fdf4eb92">
+				<File Id="EntityFramework.dll" Name="EntityFramework.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)EntityFramework.dll" />
+			</Component>
+			<Component Id="EntityFramework.SqlServer.dll" Guid="c2077289-6265-48f4-a5a6-0ffb530a115f">
+				<File Id="EntityFramework.SqlServer.dll" Name="EntityFramework.SqlServer.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)EntityFramework.SqlServer.dll" />
+			</Component>
+			<Component Id="GalaSoft.MvvmLight.dll" Guid="521c06d3-2c50-4b4c-a5de-df908abb4c2f">
+				<File Id="GalaSoft.MvvmLight.dll" Name="GalaSoft.MvvmLight.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)GalaSoft.MvvmLight.dll" />
+			</Component>
+			<Component Id="GalaSoft.MvvmLight.Extras.dll" Guid="2a40cc49-202f-4eed-afce-75e59722be08">
+				<File Id="GalaSoft.MvvmLight.Extras.dll" Name="GalaSoft.MvvmLight.Extras.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)GalaSoft.MvvmLight.Extras.dll" />
+			</Component>
+			<Component Id="GalaSoft.MvvmLight.Platform.dll" Guid="82b2b1ca-7614-4a56-b0a1-ca05cfd982b5">
+				<File Id="GalaSoft.MvvmLight.Platform.dll" Name="GalaSoft.MvvmLight.Platform.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)GalaSoft.MvvmLight.Platform.dll" />
+			</Component>
+			<Component Id="Hardcodet.Wpf.TaskbarNotification.dll" Guid="d5b69700-8725-4d3c-8ac2-a145a0bf6c21">
+				<File Id="Hardcodet.Wpf.TaskbarNotification.dll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)Hardcodet.Wpf.TaskbarNotification.dll" />
+			</Component>
+			<Component Id="Humanizer.dll" Guid="50cd4571-74af-4b59-b303-e231fece54e6">
+				<File Id="Humanizer.dll" Name="Humanizer.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)Humanizer.dll" />
+			</Component>
+			<Component Id="MahApps.Metro.dll" Guid="0c9b697a-c023-446c-b168-6b83b42f46ec">
+				<File Id="MahApps.Metro.dll" Name="MahApps.Metro.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)MahApps.Metro.dll" />
+			</Component>
+			<Component Id="MaterialDesignColors.dll" Guid="c920e3ec-e12a-4ec6-a2b2-d353fe268c96">
+				<File Id="MaterialDesignColors.dll" Name="MaterialDesignColors.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)MaterialDesignColors.dll" />
+			</Component>
+			<Component Id="MaterialDesignThemes.MahApps.dll" Guid="60a0563a-c591-44b4-b7c3-9f86b70ae4c7">
+				<File Id="MaterialDesignThemes.MahApps.dll" Name="MaterialDesignThemes.MahApps.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)MaterialDesignThemes.MahApps.dll" />
+			</Component>
+			<Component Id="MaterialDesignThemes.Wpf.dll" Guid="43b7ca9f-e321-4393-9e7a-275686124a36">
+				<File Id="MaterialDesignThemes.Wpf.dll" Name="MaterialDesignThemes.Wpf.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)MaterialDesignThemes.Wpf.dll" />
+			</Component>
+			<Component Id="Quartz.dll" Guid="f686c072-0e44-4960-a7e9-f316c8b0d290">
+				<File Id="Quartz.dll" Name="Quartz.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)Quartz.dll" />
+			</Component>
+			<Component Id="System.Data.SQLite.dll" Guid="a2b48b92-dfad-4b75-b3d6-ef0d6536c5c4">
+				<File Id="System.Data.SQLite.dll" Name="System.Data.SQLite.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)System.Data.SQLite.dll" />
+			</Component>
+			<Component Id="System.Data.SQLite.EF6.dll" Guid="785bdde4-323e-46a5-aafa-067cee7e559d">
+				<File Id="System.Data.SQLite.EF6.dll" Name="System.Data.SQLite.EF6.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)System.Data.SQLite.EF6.dll" />
+			</Component>
+			<Component Id="System.Data.SQLite.Linq.dll" Guid="b9d28ef5-123b-4f44-a284-1377e378fc61">
+				<File Id="System.Data.SQLite.Linq.dll" Name="System.Data.SQLite.Linq.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)System.Data.SQLite.Linq.dll" />
+			</Component>
+			<Component Id="System.Windows.Interactivity.dll" Guid="4f4debbb-2f58-49ab-8755-8628b8f1cf61">
+				<File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)System.Windows.Interactivity.dll" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Utilities.dll" Guid="9ac624e2-bd86-4c2c-997b-446c243736a9">
+				<File Id="Buzzilio.Begrip.Utilities.dll" Name="Buzzilio.Begrip.Utilities.dll" Source="$(var.Buzzilio.Begrip.Utilities_TargetDir)Buzzilio.Begrip.Utilities.dll" />
+			</Component>
+			<Component Id="Newtonsoft.Json.dll" Guid="d4be6c2f-1dfa-40f5-bdd6-f1299f632cc1">
+				<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)Newtonsoft.Json.dll" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Resources.dll" Guid="24b3e122-e196-4438-a5fb-afd701c385f6">
+				<File Id="Buzzilio.Begrip.Resources.dll" Name="Buzzilio.Begrip.Resources.dll" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Buzzilio.Begrip.Resources.dll" />
+			</Component>
+			<Component Id="NLog.dll" Guid="12ac5ffb-06b2-4470-a0bd-e97e0de6fd1e">
+				<File Id="NLog.dll" Name="NLog.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)NLog.dll" />
+			</Component>
+			<Component Id="shortid.dll" Guid="1ca22571-ed9a-4f7b-8a01-f0547c17f9af">
+				<File Id="shortid.dll" Name="shortid.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)shortid.dll" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.CCMinerWrapper.dll" Guid="ece61aa5-4fdc-49a4-bb35-ca8279269da4">
+				<File Id="Buzzilio.Begrip.CCMinerWrapper.dll" Name="Buzzilio.Begrip.CCMinerWrapper.dll" Source="$(var.Buzzilio.Begrip.Miner_TargetDir)Buzzilio.Begrip.CCMinerWrapper.dll" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Database.dll" Guid="e4683388-b542-4e9e-8030-c24028acfc5c">
+				<File Id="Buzzilio.Begrip.Database.dll" Name="Buzzilio.Begrip.Database.dll" Source="$(var.Buzzilio.Begrip.Database_TargetDir)Buzzilio.Begrip.Database.dll" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Infrastructure.dll" Guid="3649f601-32ee-49b1-b6d8-92f1fcbda982">
+				<File Id="Buzzilio.Begrip.Infrastructure.dll" Name="Buzzilio.Begrip.Infrastructure.dll" Source="$(var.Buzzilio.Begrip.Infrastructure_TargetDir)Buzzilio.Begrip.Infrastructure.dll" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.CCMinerWrapper.pdb" Guid="fe0aa9bd-8f56-4828-9fb1-1aa886d062e5">
+				<File Id="Buzzilio.Begrip.CCMinerWrapper.pdb" Name="Buzzilio.Begrip.CCMinerWrapper.pdb" Source="$(var.Buzzilio.Begrip.Miner_TargetDir)Buzzilio.Begrip.CCMinerWrapper.pdb" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Database.pdb" Guid="1bcabb91-1110-4361-87d3-ba22d1e75d8a">
+				<File Id="Buzzilio.Begrip.Database.pdb" Name="Buzzilio.Begrip.Database.pdb" Source="$(var.Buzzilio.Begrip.Database_TargetDir)Buzzilio.Begrip.Database.pdb" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Infrastructure.pdb" Guid="203b564e-3c98-4305-9a19-90520148a1e1">
+				<File Id="Buzzilio.Begrip.Infrastructure.pdb" Name="Buzzilio.Begrip.Infrastructure.pdb" Source="$(var.Buzzilio.Begrip.Infrastructure_TargetDir)Buzzilio.Begrip.Infrastructure.pdb" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Resources.pdb" Guid="df9c5658-79e5-4bdc-823c-8f046380f210">
+				<File Id="Buzzilio.Begrip.Resources.pdb" Name="Buzzilio.Begrip.Resources.pdb" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Buzzilio.Begrip.Resources.pdb" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Utilities.pdb" Guid="3fb673f6-fe51-4e36-b8e7-20cdd6cf4020">
+				<File Id="Buzzilio.Begrip.Utilities.pdb" Name="Buzzilio.Begrip.Utilities.pdb" Source="$(var.Buzzilio.Begrip.Utilities_TargetDir)Buzzilio.Begrip.Utilities.pdb" />
+			</Component>
+			<Component Id="Buzzilio.Begrip.Core.pdb" Guid="87d6df97-a765-455c-bfe0-6384aae1f661">
+				<File Id="Buzzilio.Begrip.Core.pdb" Name="Buzzilio.Begrip.Core.pdb" Source="$(var.Buzzilio.Begrip.Core_TargetDir)Buzzilio.Begrip.Core.pdb" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="Images_Icons_32_files" Directory="Images_Icons_32">
+			<Component Id="Images_Icons_32_pick32.png" Guid="e6ad157e-82ce-45e5-bf21-90943a96fb94">
+				<File Id="Images_Icons_32_pick32.png" Name="pick32.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\Icons\32\pick32.png" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="Images_CryptoLogos_64_files" Directory="Images_CryptoLogos_64">
+			<Component Id="Images_CryptoLogos_64_act_2x.png" Guid="0a6a8f1c-e1ce-44ed-b7d5-41acbe9f5d52">
+				<File Id="Images_CryptoLogos_64_act_2x.png" Name="act@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\act@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ada_2x.png" Guid="fcd6563e-c7df-4d68-9e06-7256303d1bba">
+				<File Id="Images_CryptoLogos_64_ada_2x.png" Name="ada@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ada@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_adx_2x.png" Guid="04ebe2cb-8ebc-4bf7-b2d6-50fd6519a007">
+				<File Id="Images_CryptoLogos_64_adx_2x.png" Name="adx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\adx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ae_2x.png" Guid="066fa197-27c9-4fbb-b0cf-f17f526620dc">
+				<File Id="Images_CryptoLogos_64_ae_2x.png" Name="ae@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ae@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_aion_2x.png" Guid="2abf39ae-d690-4fac-98c5-608fa96bfff1">
+				<File Id="Images_CryptoLogos_64_aion_2x.png" Name="aion@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\aion@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_amp_2x.png" Guid="914bf3a7-9ad4-4173-a91d-0b3cf8f3ff1c">
+				<File Id="Images_CryptoLogos_64_amp_2x.png" Name="amp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\amp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ant_2x.png" Guid="b5effbae-7934-46b3-aa8e-305333776257">
+				<File Id="Images_CryptoLogos_64_ant_2x.png" Name="ant@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ant@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ardr_2x.png" Guid="6613345c-3e6e-4aef-950a-26dcba2128ef">
+				<File Id="Images_CryptoLogos_64_ardr_2x.png" Name="ardr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ardr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ark_2x.png" Guid="d678740e-e9d8-46cb-8010-6e19c0ae2fae">
+				<File Id="Images_CryptoLogos_64_ark_2x.png" Name="ark@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ark@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ast_2x.png" Guid="3f7ed8bc-f0cb-41f3-9e07-3b126b27dac7">
+				<File Id="Images_CryptoLogos_64_ast_2x.png" Name="ast@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ast@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_atm_2x.png" Guid="8de3bad2-ae10-4cbb-a0f5-c02c35ef4d18">
+				<File Id="Images_CryptoLogos_64_atm_2x.png" Name="atm@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\atm@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bat_2x.png" Guid="b9ef49b2-3d3d-48b9-a4c1-a76a37d3bf6f">
+				<File Id="Images_CryptoLogos_64_bat_2x.png" Name="bat@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bat@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bay_2x.png" Guid="cac4dff8-c4f4-43ce-ae14-5864d606fca3">
+				<File Id="Images_CryptoLogos_64_bay_2x.png" Name="bay@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bay@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bcc_2x.png" Guid="95810087-64d1-491e-bc29-307d3e2814db">
+				<File Id="Images_CryptoLogos_64_bcc_2x.png" Name="bcc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bcc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bch_2x.png" Guid="ec581fb3-4a8b-4a49-b167-7fcb42534c7d">
+				<File Id="Images_CryptoLogos_64_bch_2x.png" Name="bch@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bch@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bcn_2x.png" Guid="8a6542c6-fde9-473b-9e27-c07990c9d7dd">
+				<File Id="Images_CryptoLogos_64_bcn_2x.png" Name="bcn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bcn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bco_2x.png" Guid="eefaf518-4350-4b15-8dfe-eb1c553092f4">
+				<File Id="Images_CryptoLogos_64_bco_2x.png" Name="bco@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bco@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bdl_2x.png" Guid="2f8fb6ef-0faa-4645-bee5-4d4d2973bcb6">
+				<File Id="Images_CryptoLogos_64_bdl_2x.png" Name="bdl@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bdl@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bela_2x.png" Guid="879c153e-a576-4b24-a5f2-670d8eddbf49">
+				<File Id="Images_CryptoLogos_64_bela_2x.png" Name="bela@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bela@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_blcn_2x.png" Guid="1c3e8f13-3869-4b3a-a717-abc671dbe4e4">
+				<File Id="Images_CryptoLogos_64_blcn_2x.png" Name="blcn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\blcn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_blk_2x.png" Guid="a984893e-27de-4d06-9bb3-d4010aa65067">
+				<File Id="Images_CryptoLogos_64_blk_2x.png" Name="blk@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\blk@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_block_2x.png" Guid="c1d153dc-de5d-49fa-acf6-6705eac640ee">
+				<File Id="Images_CryptoLogos_64_block_2x.png" Name="block@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\block@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bnb_2x.png" Guid="58f490ee-9813-4342-9564-b0852d3d02a8">
+				<File Id="Images_CryptoLogos_64_bnb_2x.png" Name="bnb@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bnb@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bnt_2x.png" Guid="c5cf87ef-de7d-47ca-b0e4-5868c1098d58">
+				<File Id="Images_CryptoLogos_64_bnt_2x.png" Name="bnt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bnt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bq_2x.png" Guid="e9475af8-6b3a-4613-870a-56231ec54a25">
+				<File Id="Images_CryptoLogos_64_bq_2x.png" Name="bq@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bq@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bqx_2x.png" Guid="4aa375d0-ba81-429b-9487-f08a73147ae7">
+				<File Id="Images_CryptoLogos_64_bqx_2x.png" Name="bqx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bqx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_btc_2x.png" Guid="5f7ed32b-832b-4059-b440-d3dfdb1a6929">
+				<File Id="Images_CryptoLogos_64_btc_2x.png" Name="btc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\btc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_btcd_2x.png" Guid="8951ad06-a03d-4ce5-8f71-4977154e15b7">
+				<File Id="Images_CryptoLogos_64_btcd_2x.png" Name="btcd@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\btcd@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_btcz_2x.png" Guid="9bb0c2bd-6655-4e6f-a6dc-6ee630daf424">
+				<File Id="Images_CryptoLogos_64_btcz_2x.png" Name="btcz@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\btcz@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_btg_2x.png" Guid="98a63a98-83c1-4b2a-bbd7-b96771d92554">
+				<File Id="Images_CryptoLogos_64_btg_2x.png" Name="btg@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\btg@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_btm_2x.png" Guid="6c20f659-4b68-4185-a91d-668c05bb01f3">
+				<File Id="Images_CryptoLogos_64_btm_2x.png" Name="btm@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\btm@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bts_2x.png" Guid="ad926eb8-9fdf-4829-847d-8c490627ec8d">
+				<File Id="Images_CryptoLogos_64_bts_2x.png" Name="bts@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bts@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_btx_2x.png" Guid="f69467de-0bef-482b-b0a7-ff6a33e9a2f7">
+				<File Id="Images_CryptoLogos_64_btx_2x.png" Name="btx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\btx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cdn_2x.png" Guid="199b3f22-c656-414c-ad77-64a386fa2a2f">
+				<File Id="Images_CryptoLogos_64_cdn_2x.png" Name="cdn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cdn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_burst_2x.png" Guid="88e342c8-edc6-46b6-a919-99c88e27ab32">
+				<File Id="Images_CryptoLogos_64_burst_2x.png" Name="burst@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\burst@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_clam_2x.png" Guid="e071b6af-6c38-4a7a-bdb3-99a0bb13cc49">
+				<File Id="Images_CryptoLogos_64_clam_2x.png" Name="clam@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\clam@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cloak_2x.png" Guid="a410974c-1b65-42eb-929b-0862338f7472">
+				<File Id="Images_CryptoLogos_64_cloak_2x.png" Name="cloak@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cloak@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cnd_2x.png" Guid="34d45668-ab3d-4164-9b68-9926e97d3396">
+				<File Id="Images_CryptoLogos_64_cnd_2x.png" Name="cnd@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cnd@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cnx_2x.png" Guid="bd664548-369e-4607-8ab7-e90c18f3cb01">
+				<File Id="Images_CryptoLogos_64_cnx_2x.png" Name="cnx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cnx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cny_2x.png" Guid="78d1f0e9-db93-46fa-8990-632a5e423e95">
+				<File Id="Images_CryptoLogos_64_cny_2x.png" Name="cny@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cny@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cred_2x.png" Guid="2e597cfb-09ab-400a-b917-bf5b1e701d4d">
+				<File Id="Images_CryptoLogos_64_cred_2x.png" Name="cred@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cred@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_crpt_2x.png" Guid="5f929061-67fe-4ba2-a147-01c913c08df2">
+				<File Id="Images_CryptoLogos_64_crpt_2x.png" Name="crpt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\crpt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cvc_2x.png" Guid="8e1552f5-d36c-49c0-9854-92babd7517f6">
+				<File Id="Images_CryptoLogos_64_cvc_2x.png" Name="cvc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cvc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dash_2x.png" Guid="2ab22508-fe97-4bda-b841-8680353cef8a">
+				<File Id="Images_CryptoLogos_64_dash_2x.png" Name="dash@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dash@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dat_2x.png" Guid="919b58ed-d13d-468f-9d33-5040c42297ee">
+				<File Id="Images_CryptoLogos_64_dat_2x.png" Name="dat@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dat@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_data_2x.png" Guid="f5c743fe-f799-4c8b-b983-1a31e73dd3de">
+				<File Id="Images_CryptoLogos_64_data_2x.png" Name="data@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\data@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dbc_2x.png" Guid="0971778a-c83a-4254-b8ca-b14f3d7d3125">
+				<File Id="Images_CryptoLogos_64_dbc_2x.png" Name="dbc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dbc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dcn_2x.png" Guid="998fcf82-f34d-41b6-ab22-b0e3f15ed425">
+				<File Id="Images_CryptoLogos_64_dcn_2x.png" Name="dcn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dcn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dcr_2x.png" Guid="0999dd9e-708b-4748-9ad3-7c77711c347b">
+				<File Id="Images_CryptoLogos_64_dcr_2x.png" Name="dcr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dcr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dent_2x.png" Guid="f85ac0f2-1048-491b-9dbd-2a22e0a6c950">
+				<File Id="Images_CryptoLogos_64_dent_2x.png" Name="dent@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dent@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dgb_2x.png" Guid="76913902-a244-4dd8-990d-78c46111c6db">
+				<File Id="Images_CryptoLogos_64_dgb_2x.png" Name="dgb@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dgb@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dgd_2x.png" Guid="4c1be903-1500-4d8d-a04b-19eae6342402">
+				<File Id="Images_CryptoLogos_64_dgd_2x.png" Name="dgd@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dgd@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_doge_2x.png" Guid="f2ef4933-0a2a-4093-af3b-b53b29878f6b">
+				<File Id="Images_CryptoLogos_64_doge_2x.png" Name="doge@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\doge@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_drgn_2x.png" Guid="2ce30166-3d18-4741-9718-3b5410db4516">
+				<File Id="Images_CryptoLogos_64_drgn_2x.png" Name="drgn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\drgn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_edg_2x.png" Guid="044d6a5a-285c-4321-81f1-16ae86a790f8">
+				<File Id="Images_CryptoLogos_64_edg_2x.png" Name="edg@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\edg@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_elf_2x.png" Guid="7ce5b0c0-16f8-42a2-a26e-f0a429661df9">
+				<File Id="Images_CryptoLogos_64_elf_2x.png" Name="elf@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\elf@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ella_2x.png" Guid="a0ebf835-d0cc-476d-8da5-01f9cfebad60">
+				<File Id="Images_CryptoLogos_64_ella_2x.png" Name="ella@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ella@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_emc_2x.png" Guid="f218f2af-27dd-4614-84fd-c5d4a6fcc260">
+				<File Id="Images_CryptoLogos_64_emc_2x.png" Name="emc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\emc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_emc2_2x.png" Guid="fb5fbce9-d630-4235-b1ad-4d8629131988">
+				<File Id="Images_CryptoLogos_64_emc2_2x.png" Name="emc2@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\emc2@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_edoge_2x.png" Guid="f83c9399-6d29-4bb6-8f41-4b1a9faa89a6">
+				<File Id="Images_CryptoLogos_64_edoge_2x.png" Name="edoge@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\edoge@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_eng_2x.png" Guid="51539f83-8fcf-49d6-88f2-614dcb398e41">
+				<File Id="Images_CryptoLogos_64_eng_2x.png" Name="eng@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\eng@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_eos_2x.png" Guid="6578439f-3203-4db3-bf8e-b855b29f7c39">
+				<File Id="Images_CryptoLogos_64_eos_2x.png" Name="eos@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\eos@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_etc_2x.png" Guid="403241c8-fd4d-433f-a541-c70e2b5f2111">
+				<File Id="Images_CryptoLogos_64_etc_2x.png" Name="etc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\etc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_eth_2x.png" Guid="60a9d773-2448-403e-b4d1-927f06dec4db">
+				<File Id="Images_CryptoLogos_64_eth_2x.png" Name="eth@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\eth@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ethos_2x.png" Guid="b8e40e8c-9473-4c8c-9bb0-86b9f7fadebe">
+				<File Id="Images_CryptoLogos_64_ethos_2x.png" Name="ethos@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ethos@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_etn_2x.png" Guid="7c4535cc-f65c-4e28-8b6a-a6279ce79753">
+				<File Id="Images_CryptoLogos_64_etn_2x.png" Name="etn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\etn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_etp_2x.png" Guid="f6a56415-72f6-47e7-8ad1-c4ecb8fcb89d">
+				<File Id="Images_CryptoLogos_64_etp_2x.png" Name="etp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\etp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_eur_2x.png" Guid="996cc644-1eb7-4385-bf66-e690f40fa556">
+				<File Id="Images_CryptoLogos_64_eur_2x.png" Name="eur@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\eur@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_evx_2x.png" Guid="7811189b-88d2-4935-81e4-e0e249d6bf2e">
+				<File Id="Images_CryptoLogos_64_evx_2x.png" Name="evx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\evx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_exmo_2x.png" Guid="52bb162b-70e9-4deb-837b-c1bc83b9fc89">
+				<File Id="Images_CryptoLogos_64_exmo_2x.png" Name="exmo@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\exmo@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_exp_2x.png" Guid="27cbe1ed-26c3-427f-8684-de1a4bd02b44">
+				<File Id="Images_CryptoLogos_64_exp_2x.png" Name="exp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\exp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_fair_2x.png" Guid="f984b228-d351-4d3a-b400-7733895281a8">
+				<File Id="Images_CryptoLogos_64_fair_2x.png" Name="fair@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\fair@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_fil_2x.png" Guid="62159c0c-8eef-4154-8542-809b688738ee">
+				<File Id="Images_CryptoLogos_64_fil_2x.png" Name="fil@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\fil@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_fct_2x.png" Guid="537add31-be52-4d90-962b-465490d1ef28">
+				<File Id="Images_CryptoLogos_64_fct_2x.png" Name="fct@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\fct@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_fldc_2x.png" Guid="5f3c67e3-f448-4744-926b-c976dd66b3c0">
+				<File Id="Images_CryptoLogos_64_fldc_2x.png" Name="fldc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\fldc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_flo_2x.png" Guid="56cac8ab-cc7c-4242-996e-14aa0fbb0b6a">
+				<File Id="Images_CryptoLogos_64_flo_2x.png" Name="flo@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\flo@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ftc_2x.png" Guid="081eb779-dbdb-4ef7-8f2e-80b78e8a2e2e">
+				<File Id="Images_CryptoLogos_64_ftc_2x.png" Name="ftc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ftc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_fun_2x.png" Guid="e09a1a9d-5748-49cd-a610-b7793c39b0a5">
+				<File Id="Images_CryptoLogos_64_fun_2x.png" Name="fun@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\fun@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_game_2x.png" Guid="c233e733-54af-441c-a9c9-a8df4691175b">
+				<File Id="Images_CryptoLogos_64_game_2x.png" Name="game@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\game@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gas_2x.png" Guid="ac26857d-b4b5-439b-8da2-a531cfe45885">
+				<File Id="Images_CryptoLogos_64_gas_2x.png" Name="gas@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gas@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gbp_2x.png" Guid="7a1ce974-7dc4-43ca-bef8-fd80da506909">
+				<File Id="Images_CryptoLogos_64_gbp_2x.png" Name="gbp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gbp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gbx_2x.png" Guid="4972978c-62f2-46f7-8d85-ad4434b2a626">
+				<File Id="Images_CryptoLogos_64_gbx_2x.png" Name="gbx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gbx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gbyte_2x.png" Guid="bef9ccd1-991b-449e-85f8-b42c6aff0af3">
+				<File Id="Images_CryptoLogos_64_gbyte_2x.png" Name="gbyte@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gbyte@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gno_2x.png" Guid="ff2d86fb-6497-4d68-aa9b-a2fe57b51eb6">
+				<File Id="Images_CryptoLogos_64_gno_2x.png" Name="gno@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gno@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gnt_2x.png" Guid="5590b944-f91b-439c-8e55-7d485b441623">
+				<File Id="Images_CryptoLogos_64_gnt_2x.png" Name="gnt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gnt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_grc_2x.png" Guid="0a695dc7-b8ed-4996-8d94-5148342a076c">
+				<File Id="Images_CryptoLogos_64_grc_2x.png" Name="grc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\grc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_grs_2x.png" Guid="a80879a6-6a79-4c19-87bd-e96a39de62fe">
+				<File Id="Images_CryptoLogos_64_grs_2x.png" Name="grs@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\grs@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gvt_2x.png" Guid="94172820-5f8c-4233-8af7-31ea2bc7a1db">
+				<File Id="Images_CryptoLogos_64_gvt_2x.png" Name="gvt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gvt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gup_2x.png" Guid="d6ec165b-00d6-4ed8-a16b-75a60b7f3fbb">
+				<File Id="Images_CryptoLogos_64_gup_2x.png" Name="gup@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gup@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gxs_2x.png" Guid="a25ba54a-1d96-4990-b8c2-833291637370">
+				<File Id="Images_CryptoLogos_64_gxs_2x.png" Name="gxs@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gxs@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_hpb_2x.png" Guid="5d1c8985-517b-4e08-bf5c-c7d318f9833c">
+				<File Id="Images_CryptoLogos_64_hpb_2x.png" Name="hpb@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\hpb@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_hsr_2x.png" Guid="7f3f218e-95f5-483e-b6a1-43186b2e654b">
+				<File Id="Images_CryptoLogos_64_hsr_2x.png" Name="hsr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\hsr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_huc_2x.png" Guid="fa95e1eb-0857-41a6-a36e-21323a9ec925">
+				<File Id="Images_CryptoLogos_64_huc_2x.png" Name="huc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\huc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_hush_2x.png" Guid="eb425487-0a39-4a1b-82f8-dfcb7e7078d6">
+				<File Id="Images_CryptoLogos_64_hush_2x.png" Name="hush@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\hush@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_icn_2x.png" Guid="28e47225-13e8-4543-87cb-9579b30d2983">
+				<File Id="Images_CryptoLogos_64_icn_2x.png" Name="icn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\icn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_icx_2x.png" Guid="5b7c456b-d2eb-4404-ac3c-bfcfde580c8c">
+				<File Id="Images_CryptoLogos_64_icx_2x.png" Name="icx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\icx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ignis_2x.png" Guid="3b0fba1c-1416-4699-a590-fa6a5ffacf3d">
+				<File Id="Images_CryptoLogos_64_ignis_2x.png" Name="ignis@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ignis@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ins_2x.png" Guid="4898f174-454a-4229-ac66-6086b98d0937">
+				<File Id="Images_CryptoLogos_64_ins_2x.png" Name="ins@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ins@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_iop_2x.png" Guid="ae5ecfb5-1f08-44e2-97f2-65d785e5fafd">
+				<File Id="Images_CryptoLogos_64_iop_2x.png" Name="iop@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\iop@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_iost_2x.png" Guid="4bd9bd24-f684-4920-9400-78739edadc2d">
+				<File Id="Images_CryptoLogos_64_iost_2x.png" Name="iost@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\iost@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_jpy_2x.png" Guid="cc54bdd8-4cd2-4693-a323-38168dd020ea">
+				<File Id="Images_CryptoLogos_64_jpy_2x.png" Name="jpy@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\jpy@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_kcs_2x.png" Guid="5c67af23-a083-45b4-97e2-5a40302ae343">
+				<File Id="Images_CryptoLogos_64_kcs_2x.png" Name="kcs@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\kcs@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_kin_2x.png" Guid="92cda936-f44d-4918-9c4d-1ddb3601f05c">
+				<File Id="Images_CryptoLogos_64_kin_2x.png" Name="kin@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\kin@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_kmd_2x.png" Guid="6110ae8a-e462-4530-ba7f-773b48e11304">
+				<File Id="Images_CryptoLogos_64_kmd_2x.png" Name="kmd@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\kmd@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_knc_2x.png" Guid="c387379c-5faf-4a12-a844-8bad38220412">
+				<File Id="Images_CryptoLogos_64_knc_2x.png" Name="knc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\knc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_krb_2x.png" Guid="6d58ea23-c310-4c2e-953c-cfe8e2c5465f">
+				<File Id="Images_CryptoLogos_64_krb_2x.png" Name="krb@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\krb@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_lbc_2x.png" Guid="b474660e-576d-4cfc-a1dd-fb1a34955a28">
+				<File Id="Images_CryptoLogos_64_lbc_2x.png" Name="lbc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\lbc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_link_2x.png" Guid="14540d44-7ca8-4ba1-ad3f-fb4efe2a4bde">
+				<File Id="Images_CryptoLogos_64_link_2x.png" Name="link@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\link@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_lkk_2x.png" Guid="4427b19e-ccce-470b-b714-3ea5ce31f5ec">
+				<File Id="Images_CryptoLogos_64_lkk_2x.png" Name="lkk@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\lkk@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_lrc_2x.png" Guid="e11a685d-5040-40db-85ce-17ffb500d56b">
+				<File Id="Images_CryptoLogos_64_lrc_2x.png" Name="lrc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\lrc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_lsk_2x.png" Guid="607812ab-0eea-42cf-8fad-724521e09dc1">
+				<File Id="Images_CryptoLogos_64_lsk_2x.png" Name="lsk@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\lsk@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ltc_2x.png" Guid="9ead97fd-0432-4412-ae83-976f77020c0e">
+				<File Id="Images_CryptoLogos_64_ltc_2x.png" Name="ltc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ltc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_maid_2x.png" Guid="68f52c7f-02cf-49e9-bfe6-085346a6d3be">
+				<File Id="Images_CryptoLogos_64_maid_2x.png" Name="maid@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\maid@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mana_2x.png" Guid="090011ff-c8d9-4215-8243-981838f0b9e6">
+				<File Id="Images_CryptoLogos_64_mana_2x.png" Name="mana@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mana@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mcap_2x.png" Guid="cf9d7810-1e1d-4b54-a6a8-3c40b025a513">
+				<File Id="Images_CryptoLogos_64_mcap_2x.png" Name="mcap@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mcap@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mco_2x.png" Guid="df576576-fc87-4d79-a72a-b0e8ca240757">
+				<File Id="Images_CryptoLogos_64_mco_2x.png" Name="mco@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mco@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_med_2x.png" Guid="b8f35ab2-14ea-4ad1-abc2-cc97bdca5cc2">
+				<File Id="Images_CryptoLogos_64_med_2x.png" Name="med@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\med@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_miota_2x.png" Guid="0ee97631-5888-412e-aa84-49267c5bf4f6">
+				<File Id="Images_CryptoLogos_64_miota_2x.png" Name="miota@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\miota@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mkr_2x.png" Guid="ba9374a7-7afd-4f62-bc47-37b9f1d2fe78">
+				<File Id="Images_CryptoLogos_64_mkr_2x.png" Name="mkr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mkr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mln_2x.png" Guid="49b4be0c-8964-426e-953e-3c20daa7e64d">
+				<File Id="Images_CryptoLogos_64_mln_2x.png" Name="mln@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mln@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mnx_2x.png" Guid="576646cb-4fa4-4b96-9211-41725cbee51f">
+				<File Id="Images_CryptoLogos_64_mnx_2x.png" Name="mnx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mnx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mona_2x.png" Guid="2d66340e-cc29-4f68-9f29-18fab33b23d8">
+				<File Id="Images_CryptoLogos_64_mona_2x.png" Name="mona@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mona@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_music_2x.png" Guid="0ac1b00a-3cfe-4093-8a31-a5f74721b98c">
+				<File Id="Images_CryptoLogos_64_music_2x.png" Name="music@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\music@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mtl_2x.png" Guid="f898f502-4cab-4863-b505-ce0bc3948076">
+				<File Id="Images_CryptoLogos_64_mtl_2x.png" Name="mtl@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mtl@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nas_2x.png" Guid="26ebe845-8a51-4b90-ba04-9f39e339cfb5">
+				<File Id="Images_CryptoLogos_64_nas_2x.png" Name="nas@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nas@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nav_2x.png" Guid="c9e531c0-621d-433e-9140-b01e43555682">
+				<File Id="Images_CryptoLogos_64_nav_2x.png" Name="nav@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nav@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ndz_2x.png" Guid="48800be2-5c0a-417d-8478-3d9e4980e5d8">
+				<File Id="Images_CryptoLogos_64_ndz_2x.png" Name="ndz@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ndz@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nebl_2x.png" Guid="ce272406-e40a-430d-b350-4b22bac29956">
+				<File Id="Images_CryptoLogos_64_nebl_2x.png" Name="nebl@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nebl@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_neo_2x.png" Guid="2d9e1edf-10ef-45a8-9bc2-d8189f9d4f49">
+				<File Id="Images_CryptoLogos_64_neo_2x.png" Name="neo@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\neo@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_neos_2x.png" Guid="c2833d48-d103-42aa-910d-8d4c477f2d92">
+				<File Id="Images_CryptoLogos_64_neos_2x.png" Name="neos@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\neos@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ngc_2x.png" Guid="0c72dd8e-9105-459a-8fd1-40e0fd55ccb9">
+				<File Id="Images_CryptoLogos_64_ngc_2x.png" Name="ngc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ngc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nlc2_2x.png" Guid="541f1263-da03-4b4d-b08c-ee63c38c0c3e">
+				<File Id="Images_CryptoLogos_64_nlc2_2x.png" Name="nlc2@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nlc2@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nlg_2x.png" Guid="aae738f6-6995-467f-9317-1034aeb3ef90">
+				<File Id="Images_CryptoLogos_64_nlg_2x.png" Name="nlg@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nlg@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nmc_2x.png" Guid="0cc80aab-3c3a-4fef-baf6-73fba02af0a1">
+				<File Id="Images_CryptoLogos_64_nmc_2x.png" Name="nmc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nmc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nxs_2x.png" Guid="7f938c2f-2b53-4b68-b289-e016c4ddd518">
+				<File Id="Images_CryptoLogos_64_nxs_2x.png" Name="nxs@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nxs@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nxt_2x.png" Guid="0b369fcd-ac75-478c-83ba-5d275c2e7562">
+				<File Id="Images_CryptoLogos_64_nxt_2x.png" Name="nxt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nxt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_omg_2x.png" Guid="dbc33133-826c-41c9-9ad6-16cc65ef98d0">
+				<File Id="Images_CryptoLogos_64_omg_2x.png" Name="omg@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\omg@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_omni_2x.png" Guid="f61c1035-1bb4-4c86-889e-eddef82a9f95">
+				<File Id="Images_CryptoLogos_64_omni_2x.png" Name="omni@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\omni@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ost_2x.png" Guid="52d49b7a-c374-4b52-8c6a-e3479e842ef7">
+				<File Id="Images_CryptoLogos_64_ost_2x.png" Name="ost@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ost@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ox_2x.png" Guid="78d6d0cc-824f-40fb-95d9-1bd6c685f169">
+				<File Id="Images_CryptoLogos_64_ox_2x.png" Name="ox@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ox@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_pac_2x.png" Guid="27d9029b-ecb5-4e9d-b611-a8330f393a09">
+				<File Id="Images_CryptoLogos_64_pac_2x.png" Name="pac@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\pac@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_part_2x.png" Guid="25c8c685-4d8f-403a-b6ac-de5aa65f0c10">
+				<File Id="Images_CryptoLogos_64_part_2x.png" Name="part@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\part@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_pay_2x.png" Guid="adcba092-1968-440f-a0df-11a2a9d602e2">
+				<File Id="Images_CryptoLogos_64_pay_2x.png" Name="pay@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\pay@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_pasl_2x.png" Guid="2cd219e5-d18a-4722-96a2-6a06588b0ba1">
+				<File Id="Images_CryptoLogos_64_pasl_2x.png" Name="pasl@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\pasl@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_pink_2x.png" Guid="4866af7b-5a6c-4dec-8b0c-73b43f8182bb">
+				<File Id="Images_CryptoLogos_64_pink_2x.png" Name="pink@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\pink@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_pirl_2x.png" Guid="6a30b245-8034-49f6-81d1-45b082a93baa">
+				<File Id="Images_CryptoLogos_64_pirl_2x.png" Name="pirl@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\pirl@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_pivx_2x.png" Guid="f6963e74-448c-48e9-b421-b546c32de4be">
+				<File Id="Images_CryptoLogos_64_pivx_2x.png" Name="pivx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\pivx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_plr_2x.png" Guid="58b71c31-23a5-4903-a1ff-da06de132cfc">
+				<File Id="Images_CryptoLogos_64_plr_2x.png" Name="plr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\plr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_poe_2x.png" Guid="dad6972e-51ce-4ed9-b966-7010dbc17f0a">
+				<File Id="Images_CryptoLogos_64_poe_2x.png" Name="poe@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\poe@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_pot_2x.png" Guid="6cd4f0ed-f7d5-4284-8dd7-4be839b47913">
+				<File Id="Images_CryptoLogos_64_pot_2x.png" Name="pot@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\pot@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_powr_2x.png" Guid="c5900220-6cc8-45b8-a509-9f2419d778e4">
+				<File Id="Images_CryptoLogos_64_powr_2x.png" Name="powr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\powr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ppc_2x.png" Guid="4c9df833-40d2-4c7a-9c76-c83e0d4781b0">
+				<File Id="Images_CryptoLogos_64_ppc_2x.png" Name="ppc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ppc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ppp_2x.png" Guid="8feca32e-8f79-4c6d-a747-9aa1619d0fd0">
+				<File Id="Images_CryptoLogos_64_ppp_2x.png" Name="ppp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ppp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_prl_2x.png" Guid="2a7159ea-2087-4410-a285-efcdcf010e29">
+				<File Id="Images_CryptoLogos_64_prl_2x.png" Name="prl@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\prl@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ppt_2x.png" Guid="d1d8f799-488b-4ba1-9a5c-c7b6d9cbaf6c">
+				<File Id="Images_CryptoLogos_64_ppt_2x.png" Name="ppt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ppt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_pura_2x.png" Guid="6a2a1daa-0189-48d1-9189-5af3f07b871c">
+				<File Id="Images_CryptoLogos_64_pura_2x.png" Name="pura@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\pura@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_qash_2x.png" Guid="78bff385-081a-432f-abe4-142b5a46fef3">
+				<File Id="Images_CryptoLogos_64_qash_2x.png" Name="qash@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\qash@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_qiwi_2x.png" Guid="2cf89dfa-4a06-4dbb-833b-4d75679c4777">
+				<File Id="Images_CryptoLogos_64_qiwi_2x.png" Name="qiwi@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\qiwi@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_qlc_2x.png" Guid="e76b8487-015d-4fd7-9750-fb601e5cac08">
+				<File Id="Images_CryptoLogos_64_qlc_2x.png" Name="qlc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\qlc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_qsp_2x.png" Guid="6f761d34-8ae4-4ac2-b168-dfeaa729c20d">
+				<File Id="Images_CryptoLogos_64_qsp_2x.png" Name="qsp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\qsp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_qtum_2x.png" Guid="2ec29154-eea8-4291-9e22-94fea561c6b3">
+				<File Id="Images_CryptoLogos_64_qtum_2x.png" Name="qtum@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\qtum@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rads_2x.png" Guid="4bdb9bea-ff64-4939-bb4d-79fbc5b63c21">
+				<File Id="Images_CryptoLogos_64_rads_2x.png" Name="rads@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rads@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rcn_2x.png" Guid="9afe31c4-3e0f-4452-861d-e9fac51b206c">
+				<File Id="Images_CryptoLogos_64_rcn_2x.png" Name="rcn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rcn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rise_2x.png" Guid="040da80f-5d84-477e-84e5-4aaa4a9d7371">
+				<File Id="Images_CryptoLogos_64_rise_2x.png" Name="rise@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rise@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rlc_2x.png" Guid="a060b163-84fc-48a5-aa66-bda80fc513c5">
+				<File Id="Images_CryptoLogos_64_rlc_2x.png" Name="rlc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rlc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rpx_2x.png" Guid="3166bb48-bcba-44ff-9911-f26a044a26fa">
+				<File Id="Images_CryptoLogos_64_rpx_2x.png" Name="rpx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rpx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rub_2x.png" Guid="c097b683-f245-4d31-b0ec-88929dd4dfda">
+				<File Id="Images_CryptoLogos_64_rub_2x.png" Name="rub@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rub@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_salt_2x.png" Guid="1af2188e-bf52-4fb4-a365-854db9641a88">
+				<File Id="Images_CryptoLogos_64_salt_2x.png" Name="salt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\salt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_san_2x.png" Guid="ba379754-893e-4b3f-b73c-00d0892b1fdc">
+				<File Id="Images_CryptoLogos_64_san_2x.png" Name="san@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\san@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_sberbank_2x.png" Guid="b7da44cc-8806-4e85-b77f-a6a789fda530">
+				<File Id="Images_CryptoLogos_64_sberbank_2x.png" Name="sberbank@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\sberbank@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_sbd_2x.png" Guid="37695228-934d-4412-b0d6-f54fb8763057">
+				<File Id="Images_CryptoLogos_64_sbd_2x.png" Name="sbd@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\sbd@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_sc_2x.png" Guid="9b587148-43a4-4ed3-9a68-e4f189200050">
+				<File Id="Images_CryptoLogos_64_sc_2x.png" Name="sc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\sc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_sky_2x.png" Guid="9d8c6cf5-8278-41cd-aa59-5b2636b73184">
+				<File Id="Images_CryptoLogos_64_sky_2x.png" Name="sky@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\sky@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_smart_2x.png" Guid="d531909f-1133-48fd-94f7-8b3944db7a10">
+				<File Id="Images_CryptoLogos_64_smart_2x.png" Name="smart@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\smart@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_sngls_2x.png" Guid="fe1e9c9a-f1d0-492b-9325-200716786c28">
+				<File Id="Images_CryptoLogos_64_sngls_2x.png" Name="sngls@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\sngls@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_snt_2x.png" Guid="df2cd6f9-de0b-4ed9-b458-dbe676c8f984">
+				<File Id="Images_CryptoLogos_64_snt_2x.png" Name="snt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\snt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_sphtx_2x.png" Guid="dd76f7d1-bac0-434c-81d5-59bc3f949131">
+				<File Id="Images_CryptoLogos_64_sphtx_2x.png" Name="sphtx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\sphtx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_srn_2x.png" Guid="e5530c57-24ab-448f-9151-3932eb305cfb">
+				<File Id="Images_CryptoLogos_64_srn_2x.png" Name="srn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\srn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_start_2x.png" Guid="7038b4de-746c-47c4-9db6-2a29b371e1cf">
+				<File Id="Images_CryptoLogos_64_start_2x.png" Name="start@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\start@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_steem_2x.png" Guid="874bafb3-7704-4173-ad71-241d5d118d58">
+				<File Id="Images_CryptoLogos_64_steem_2x.png" Name="steem@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\steem@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_storj_2x.png" Guid="bba416e6-1798-4ce1-8277-96b3e829d1ff">
+				<File Id="Images_CryptoLogos_64_storj_2x.png" Name="storj@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\storj@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_storm_2x.png" Guid="174ebee2-ca43-484d-aa34-7623a7a6f517">
+				<File Id="Images_CryptoLogos_64_storm_2x.png" Name="storm@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\storm@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_strat_2x.png" Guid="c4f5ea81-22c6-4a1d-afe5-c3a4d43b8ecc">
+				<File Id="Images_CryptoLogos_64_strat_2x.png" Name="strat@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\strat@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_sub_2x.png" Guid="2db7253d-d586-4b5e-ae59-bb4c8780e9c1">
+				<File Id="Images_CryptoLogos_64_sub_2x.png" Name="sub@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\sub@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_sys_2x.png" Guid="4d41617f-dd2e-4d28-afb3-23cd91370b8d">
+				<File Id="Images_CryptoLogos_64_sys_2x.png" Name="sys@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\sys@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_taas_2x.png" Guid="6b929340-0a2a-420b-b87b-9e1f1405967f">
+				<File Id="Images_CryptoLogos_64_taas_2x.png" Name="taas@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\taas@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_tau_2x.png" Guid="5b50223a-da25-47b5-bfea-810f184648f5">
+				<File Id="Images_CryptoLogos_64_tau_2x.png" Name="tau@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\tau@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_tix_2x.png" Guid="71577693-79b7-420f-986b-53e42b1e5731">
+				<File Id="Images_CryptoLogos_64_tix_2x.png" Name="tix@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\tix@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_tkn_2x.png" Guid="19091583-3864-474d-a12c-4500fd3fcdff">
+				<File Id="Images_CryptoLogos_64_tkn_2x.png" Name="tkn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\tkn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_tnc_2x.png" Guid="5fb686e5-aacc-4b56-9569-89a1bb4b21f5">
+				<File Id="Images_CryptoLogos_64_tnc_2x.png" Name="tnc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\tnc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_trig_2x.png" Guid="6ffb7d77-ccd7-4141-a3db-d195d2973371">
+				<File Id="Images_CryptoLogos_64_trig_2x.png" Name="trig@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\trig@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_trx_2x.png" Guid="3b7296aa-5eb7-46f1-9a3b-1133c6c0395f">
+				<File Id="Images_CryptoLogos_64_trx_2x.png" Name="trx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\trx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_tzc_2x.png" Guid="ab38c9ff-82f7-4f8b-8b8c-d93dcceeb666">
+				<File Id="Images_CryptoLogos_64_tzc_2x.png" Name="tzc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\tzc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ubq_2x.png" Guid="e601da3c-ab4d-4faa-927d-9bb32cd0c6d2">
+				<File Id="Images_CryptoLogos_64_ubq_2x.png" Name="ubq@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ubq@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_usd_2x.png" Guid="ebf0857e-15cc-4754-ac4c-a50b39869116">
+				<File Id="Images_CryptoLogos_64_usd_2x.png" Name="usd@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\usd@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_usdt_2x.png" Guid="030d9d35-614b-4521-a796-4526889d4cf9">
+				<File Id="Images_CryptoLogos_64_usdt_2x.png" Name="usdt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\usdt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ven_2x.png" Guid="068983bb-dc48-44f4-842e-58eb7925ac8e">
+				<File Id="Images_CryptoLogos_64_ven_2x.png" Name="ven@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ven@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_veri_2x.png" Guid="b674f498-756b-4db9-8b64-d1a081517089">
+				<File Id="Images_CryptoLogos_64_veri_2x.png" Name="veri@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\veri@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_via_2x.png" Guid="72eb085c-5cc4-4590-8b5c-47163f7fd8fb">
+				<File Id="Images_CryptoLogos_64_via_2x.png" Name="via@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\via@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_vivo_2x.png" Guid="2dd7aff6-33a5-4562-a4c7-d2bce2ae2fdf">
+				<File Id="Images_CryptoLogos_64_vivo_2x.png" Name="vivo@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\vivo@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_vrc_2x.png" Guid="41b7f67e-36fd-47c9-a0e8-0eccd6e69f3d">
+				<File Id="Images_CryptoLogos_64_vrc_2x.png" Name="vrc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\vrc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_vtc_2x.png" Guid="67ba83aa-52fe-483b-8e43-865acf109e0d">
+				<File Id="Images_CryptoLogos_64_vtc_2x.png" Name="vtc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\vtc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_wabi_2x.png" Guid="a865cff3-ef7b-413f-ac9d-c6e04e85f6bc">
+				<File Id="Images_CryptoLogos_64_wabi_2x.png" Name="wabi@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\wabi@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_waves_2x.png" Guid="65cb7206-c479-4a99-9528-beaefae67525">
+				<File Id="Images_CryptoLogos_64_waves_2x.png" Name="waves@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\waves@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_wax_2x.png" Guid="4db491f8-a7ec-46d8-819e-86dda940c32a">
+				<File Id="Images_CryptoLogos_64_wax_2x.png" Name="wax@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\wax@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_wtc_2x.png" Guid="c11732cb-9419-435c-8761-7bf1b35a88fb">
+				<File Id="Images_CryptoLogos_64_wtc_2x.png" Name="wtc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\wtc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xbc_2x.png" Guid="d955b2ea-09a9-4a68-82fc-8dba638b6cf9">
+				<File Id="Images_CryptoLogos_64_xbc_2x.png" Name="xbc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xbc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xcp_2x.png" Guid="97472648-29fb-4c56-a4b8-5fea1ed914ba">
+				<File Id="Images_CryptoLogos_64_xcp_2x.png" Name="xcp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xcp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xdn_2x.png" Guid="1088e3b3-13e6-46fd-a3f7-943160b6b747">
+				<File Id="Images_CryptoLogos_64_xdn_2x.png" Name="xdn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xdn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xem_2x.png" Guid="11f7ca5d-10f0-47fc-858d-4b28be33bc68">
+				<File Id="Images_CryptoLogos_64_xem_2x.png" Name="xem@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xem@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xlm_2x.png" Guid="d40e89f9-9870-4f69-b170-1b928cf03dd3">
+				<File Id="Images_CryptoLogos_64_xlm_2x.png" Name="xlm@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xlm@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xmg_2x.png" Guid="586da9cd-cae3-407f-b57f-13aa5d9aed54">
+				<File Id="Images_CryptoLogos_64_xmg_2x.png" Name="xmg@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xmg@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xmr_2x.png" Guid="3420eb46-6619-4508-9406-b9c2e8170932">
+				<File Id="Images_CryptoLogos_64_xmr_2x.png" Name="xmr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xmr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xmy_2x.png" Guid="8fa6681a-5d4c-4bf1-8cfe-b5a20812feaf">
+				<File Id="Images_CryptoLogos_64_xmy_2x.png" Name="xmy@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xmy@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xp_2x.png" Guid="7f0133b0-c73a-445c-9fac-7d05b01a0ca1">
+				<File Id="Images_CryptoLogos_64_xp_2x.png" Name="xp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xpm_2x.png" Guid="2071c2c9-20ba-4eba-948d-6c9f3a44bcdd">
+				<File Id="Images_CryptoLogos_64_xpm_2x.png" Name="xpm@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xpm@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xpa_2x.png" Guid="31e5154e-e09e-4f69-850a-9917f8065ce4">
+				<File Id="Images_CryptoLogos_64_xpa_2x.png" Name="xpa@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xpa@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xrb_2x.png" Guid="a2f1a6f1-cc0b-4e51-aa65-57b577aa7d58">
+				<File Id="Images_CryptoLogos_64_xrb_2x.png" Name="xrb@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xrb@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xrp_2x.png" Guid="0a3f4836-40a4-470c-8930-ea8258de3f53">
+				<File Id="Images_CryptoLogos_64_xrp_2x.png" Name="xrp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xrp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xtz_2x.png" Guid="14c72e5f-cd7a-43df-a369-dee2c70ee200">
+				<File Id="Images_CryptoLogos_64_xtz_2x.png" Name="xtz@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xtz@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xuc_2x.png" Guid="2917bbb1-2fd1-401c-988f-9081c4c6bb2f">
+				<File Id="Images_CryptoLogos_64_xuc_2x.png" Name="xuc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xuc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xvc_2x.png" Guid="0f08c5bc-f8ca-4c7a-af01-35132f9e0b9f">
+				<File Id="Images_CryptoLogos_64_xvc_2x.png" Name="xvc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xvc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xzc_2x.png" Guid="0909b3e2-2539-40a4-8a85-495a4f0ba2e5">
+				<File Id="Images_CryptoLogos_64_xzc_2x.png" Name="xzc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xzc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xvg_2x.png" Guid="4009fa49-4bf6-4281-b386-2b9d01f737c5">
+				<File Id="Images_CryptoLogos_64_xvg_2x.png" Name="xvg@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xvg@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_zcl_2x.png" Guid="b980480b-ac66-4b7d-95ec-573302ad3674">
+				<File Id="Images_CryptoLogos_64_zcl_2x.png" Name="zcl@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\zcl@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_zec_2x.png" Guid="07cb65f8-385b-44a6-96d3-5be62568a54b">
+				<File Id="Images_CryptoLogos_64_zec_2x.png" Name="zec@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\zec@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_zen_2x.png" Guid="90ed8af3-dcfb-49a9-826d-13a2f83365ef">
+				<File Id="Images_CryptoLogos_64_zen_2x.png" Name="zen@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\zen@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_zrx_2x.png" Guid="f00f793f-91c1-48af-a7d9-ef73e34e2b43">
+				<File Id="Images_CryptoLogos_64_zrx_2x.png" Name="zrx@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\zrx@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rdd_2x.png" Guid="21a2c54b-fb48-4d24-8c1b-f28b0d5938d5">
+				<File Id="Images_CryptoLogos_64_rdd_2x.png" Name="rdd@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rdd@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rdn_2x.png" Guid="00c778c3-6c35-42e5-80b8-6c37097e0c81">
+				<File Id="Images_CryptoLogos_64_rdn_2x.png" Name="rdn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rdn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rep_2x.png" Guid="cc57aec6-923b-4389-8a4c-8b15e0b6e47d">
+				<File Id="Images_CryptoLogos_64_rep_2x.png" Name="rep@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rep@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_req_2x.png" Guid="e446e135-3e2f-46fa-bac9-564c1bfe6b11">
+				<File Id="Images_CryptoLogos_64_req_2x.png" Name="req@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\req@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rhoc_2x.png" Guid="6b549a87-1bd1-445f-9d53-f9eee68d68d0">
+				<File Id="Images_CryptoLogos_64_rhoc_2x.png" Name="rhoc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rhoc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ric_2x.png" Guid="78532221-b6fb-453f-9513-c16819edb07f">
+				<File Id="Images_CryptoLogos_64_ric_2x.png" Name="ric@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ric@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64__pac_2x.png" Guid="de4c3f7d-8d50-4dcb-a4f8-4a65c1db4447">
+				<File Id="Images_CryptoLogos_64__pac_2x.png" Name="$pac@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\$pac@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_abt_2x.png" Guid="4bd384b4-7553-4be3-a177-05559fc072fb">
+				<File Id="Images_CryptoLogos_64_abt_2x.png" Name="abt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\abt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_agi_2x.png" Guid="dcbe1caf-2fb6-4a81-97fa-e56a622a96fa">
+				<File Id="Images_CryptoLogos_64_agi_2x.png" Name="agi@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\agi@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_agrs_2x.png" Guid="ba9dfa70-6019-407a-b602-f6e7e53e18db">
+				<File Id="Images_CryptoLogos_64_agrs_2x.png" Name="agrs@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\agrs@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_amb_2x.png" Guid="4b15d93d-e54a-4f11-9a30-e96fd182ffc3">
+				<File Id="Images_CryptoLogos_64_amb_2x.png" Name="amb@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\amb@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_arn_2x.png" Guid="0ceae879-557d-4434-83ba-e59bc8c67348">
+				<File Id="Images_CryptoLogos_64_arn_2x.png" Name="arn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\arn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_appc_2x.png" Guid="f15c2425-40be-480d-ad4b-c4f9fe6bc3b1">
+				<File Id="Images_CryptoLogos_64_appc_2x.png" Name="appc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\appc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ary_2x.png" Guid="edf96dfb-36d0-4be8-aece-c01c334f6979">
+				<File Id="Images_CryptoLogos_64_ary_2x.png" Name="ary@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ary@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_auto_2x.png" Guid="e87bee02-4621-462d-bcc0-de531e5dbd45">
+				<File Id="Images_CryptoLogos_64_auto_2x.png" Name="auto@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\auto@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bcd_2x.png" Guid="100ad32a-4b76-482e-a8bf-9f04c709b5e4">
+				<File Id="Images_CryptoLogos_64_bcd_2x.png" Name="bcd@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bcd@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bcpt_2x.png" Guid="796c130d-8a91-4249-ab36-47d51eb7613d">
+				<File Id="Images_CryptoLogos_64_bcpt_2x.png" Name="bcpt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bcpt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bix_2x.png" Guid="aeb4cfee-3877-4f4c-a724-26e980855c30">
+				<File Id="Images_CryptoLogos_64_bix_2x.png" Name="bix@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bix@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_blz_2x.png" Guid="a4cf6f90-e8f0-4268-8e2d-babfadeeb885">
+				<File Id="Images_CryptoLogos_64_blz_2x.png" Name="blz@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\blz@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bnty_2x.png" Guid="d599f7a0-a1c0-4c0d-ab91-2765431cd99d">
+				<File Id="Images_CryptoLogos_64_bnty_2x.png" Name="bnty@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bnty@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bos_2x.png" Guid="b3382aa5-6cf3-4513-848d-cfd7149cb302">
+				<File Id="Images_CryptoLogos_64_bos_2x.png" Name="bos@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bos@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_bpt_2x.png" Guid="75279ffe-28b0-4d14-9e95-394a56f6a64d">
+				<File Id="Images_CryptoLogos_64_bpt_2x.png" Name="bpt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\bpt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_brd_2x.png" Guid="f40b4712-d13d-41e5-9ddc-f3d49d914c0f">
+				<File Id="Images_CryptoLogos_64_brd_2x.png" Name="brd@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\brd@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_btcp_2x.png" Guid="6249c643-168e-4307-94bf-886720768f27">
+				<File Id="Images_CryptoLogos_64_btcp_2x.png" Name="btcp@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\btcp@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cix_2x.png" Guid="b66ea3ba-7c44-436d-b567-4df7250ed23c">
+				<File Id="Images_CryptoLogos_64_cix_2x.png" Name="cix@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cix@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cmt_2x.png" Guid="5c6db2b1-7b19-4324-8fb6-23b5c16fa28c">
+				<File Id="Images_CryptoLogos_64_cmt_2x.png" Name="cmt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cmt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cob_2x.png" Guid="9459980c-8e8f-4175-94f3-c0442a7641b7">
+				<File Id="Images_CryptoLogos_64_cob_2x.png" Name="cob@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cob@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_crc_2x.png" Guid="64f63b8f-04d6-442f-9244-7c76936ceef6">
+				<File Id="Images_CryptoLogos_64_crc_2x.png" Name="crc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\crc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cs_2x.png" Guid="9faced5d-7586-4af8-88cf-641a932f6ebf">
+				<File Id="Images_CryptoLogos_64_cs_2x.png" Name="cs@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cs@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ctr_2x.png" Guid="2b60ba18-0c5d-4d3b-a522-070015d1eb3e">
+				<File Id="Images_CryptoLogos_64_ctr_2x.png" Name="ctr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ctr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dew_2x.png" Guid="162e8a0b-64b6-4976-96f1-476845708847">
+				<File Id="Images_CryptoLogos_64_dew_2x.png" Name="dew@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dew@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dlt_2x.png" Guid="605d6678-b4e7-4988-b92c-bbeb4148a5bc">
+				<File Id="Images_CryptoLogos_64_dlt_2x.png" Name="dlt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dlt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dnt_2x.png" Guid="3741eeaa-26d2-4419-b27a-5ece5dd938d7">
+				<File Id="Images_CryptoLogos_64_dnt_2x.png" Name="dnt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dnt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dta_2x.png" Guid="09e86646-a19b-44eb-a028-af80b4fcacb8">
+				<File Id="Images_CryptoLogos_64_dta_2x.png" Name="dta@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dta@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_edo_2x.png" Guid="ab9913d7-dcd3-448a-81af-cb65e59c3cd8">
+				<File Id="Images_CryptoLogos_64_edo_2x.png" Name="edo@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\edo@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_dtr_2x.png" Guid="40bfe073-8648-4119-aac4-702f1d95ec3a">
+				<File Id="Images_CryptoLogos_64_dtr_2x.png" Name="dtr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\dtr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ebst_2x.png" Guid="3525ddaf-ceee-4f50-bf8b-4fb2a48079c5">
+				<File Id="Images_CryptoLogos_64_ebst_2x.png" Name="ebst@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ebst@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_elix_2x.png" Guid="a9ab81d7-90b6-47ba-84f0-bd1220465bb1">
+				<File Id="Images_CryptoLogos_64_elix_2x.png" Name="elix@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\elix@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_enj_2x.png" Guid="9a910501-09a4-492b-a0b9-29eba7c5a5ac">
+				<File Id="Images_CryptoLogos_64_enj_2x.png" Name="enj@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\enj@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_equa_2x.png" Guid="5c40bb75-38f3-4a87-bb79-c170d578bb8a">
+				<File Id="Images_CryptoLogos_64_equa_2x.png" Name="equa@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\equa@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_fsn_2x.png" Guid="ea02ab7f-9ed2-49c2-b60d-4964e3aff068">
+				<File Id="Images_CryptoLogos_64_fsn_2x.png" Name="fsn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\fsn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_fuel_2x.png" Guid="e06ee4ab-e5c8-4f34-9986-738898137cf0">
+				<File Id="Images_CryptoLogos_64_fuel_2x.png" Name="fuel@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\fuel@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ink_2x.png" Guid="6554ab1a-d937-4c77-9b10-036431a1c3c8">
+				<File Id="Images_CryptoLogos_64_ink_2x.png" Name="ink@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ink@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_inn_2x.png" Guid="2ed4bb44-c3b3-4ae5-bb33-5087cae3ead4">
+				<File Id="Images_CryptoLogos_64_inn_2x.png" Name="inn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\inn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ion_2x.png" Guid="6c86fb69-5e41-4b9f-97ec-e459c99a64c3">
+				<File Id="Images_CryptoLogos_64_ion_2x.png" Name="ion@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ion@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_itc_2x.png" Guid="4eb47674-08a5-4f57-a10d-7e0fac32d08d">
+				<File Id="Images_CryptoLogos_64_itc_2x.png" Name="itc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\itc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_jnt_2x.png" Guid="e57692ff-74af-4780-833f-c9d9b8509f57">
+				<File Id="Images_CryptoLogos_64_jnt_2x.png" Name="jnt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\jnt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_lend_2x.png" Guid="b1fe42cc-0985-4d8f-946d-7e0716addc27">
+				<File Id="Images_CryptoLogos_64_lend_2x.png" Name="lend@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\lend@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_lun_2x.png" Guid="53f8fcfc-5168-4f98-8645-dc51b602d384">
+				<File Id="Images_CryptoLogos_64_lun_2x.png" Name="lun@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\lun@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mda_2x.png" Guid="b4bc12e1-7e12-4ace-b927-51d27378c37b">
+				<File Id="Images_CryptoLogos_64_mda_2x.png" Name="mda@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mda@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mds_2x.png" Guid="0e67a3f1-2bd6-4c02-89be-82b678f08ebd">
+				<File Id="Images_CryptoLogos_64_mds_2x.png" Name="mds@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mds@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mod_2x.png" Guid="d920651e-c571-44c8-ba4c-21399d04ec5a">
+				<File Id="Images_CryptoLogos_64_mod_2x.png" Name="mod@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mod@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mth_2x.png" Guid="a1fb83dc-9a4c-42af-8dc1-b8d34cd94e99">
+				<File Id="Images_CryptoLogos_64_mth_2x.png" Name="mth@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mth@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_mzc_2x.png" Guid="fdd93342-ed38-432a-9233-18501c4d2e6d">
+				<File Id="Images_CryptoLogos_64_mzc_2x.png" Name="mzc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\mzc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nano_2x.png" Guid="016e0aff-c151-4d45-934f-632fcaeab529">
+				<File Id="Images_CryptoLogos_64_nano_2x.png" Name="nano@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nano@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ncash_2x.png" Guid="d52829f3-cf83-48e5-97e8-c8aa827e8b0f">
+				<File Id="Images_CryptoLogos_64_ncash_2x.png" Name="ncash@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ncash@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_nuls_2x.png" Guid="19feb2e1-03fa-4c92-bbff-9e1ae63b285c">
+				<File Id="Images_CryptoLogos_64_nuls_2x.png" Name="nuls@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\nuls@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_oax_2x.png" Guid="55c2b85b-dc56-4ae4-bf40-b8fb1b0d118f">
+				<File Id="Images_CryptoLogos_64_oax_2x.png" Name="oax@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\oax@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_ont_2x.png" Guid="0d4844bf-c605-41be-a426-c3ddad67614f">
+				<File Id="Images_CryptoLogos_64_ont_2x.png" Name="ont@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\ont@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_poa_2x.png" Guid="7834b005-ac0e-4d6f-97df-eda9b0f6c9a4">
+				<File Id="Images_CryptoLogos_64_poa_2x.png" Name="poa@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\poa@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_r_2x.png" Guid="332ae201-a6cb-4b70-b7fb-2dfef2ab31cd">
+				<File Id="Images_CryptoLogos_64_r_2x.png" Name="r@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\r@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_rvn_2x.png" Guid="5d1fb88d-fd09-4c59-8d27-c3ba606989d6">
+				<File Id="Images_CryptoLogos_64_rvn_2x.png" Name="rvn@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\rvn@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_slr_2x.png" Guid="c4a616d2-d130-4ed8-9b62-03d4bb43aa4d">
+				<File Id="Images_CryptoLogos_64_slr_2x.png" Name="slr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\slr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_sls_2x.png" Guid="cfb45fed-d099-4aee-a124-5efa29d6ecd4">
+				<File Id="Images_CryptoLogos_64_sls_2x.png" Name="sls@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\sls@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_snm_2x.png" Guid="1266bab1-e492-474a-985a-cf6b77f91d66">
+				<File Id="Images_CryptoLogos_64_snm_2x.png" Name="snm@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\snm@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_spank_2x.png" Guid="8ba5fe80-03de-44a4-9f27-48c4a4a9350b">
+				<File Id="Images_CryptoLogos_64_spank_2x.png" Name="spank@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\spank@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_theta_2x.png" Guid="bd51ae26-89bb-44da-a81f-bcd2fc8179f7">
+				<File Id="Images_CryptoLogos_64_theta_2x.png" Name="theta@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\theta@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_tel_2x.png" Guid="e54f95c6-c15b-4038-8870-e2ccc96beeda">
+				<File Id="Images_CryptoLogos_64_tel_2x.png" Name="tel@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\tel@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_tnb_2x.png" Guid="04a36103-c587-458d-947b-da986a2e30b2">
+				<File Id="Images_CryptoLogos_64_tnb_2x.png" Name="tnb@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\tnb@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_tnt_2x.png" Guid="9724775c-f479-4416-8017-59fd7edb7ebc">
+				<File Id="Images_CryptoLogos_64_tnt_2x.png" Name="tnt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\tnt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_unity_2x.png" Guid="192009e2-c959-4a51-b2d8-f8f4b09fb8a1">
+				<File Id="Images_CryptoLogos_64_unity_2x.png" Name="unity@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\unity@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_utk_2x.png" Guid="379426ee-3223-4536-830a-47453a318643">
+				<File Id="Images_CryptoLogos_64_utk_2x.png" Name="utk@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\utk@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_vib_2x.png" Guid="6e13cad0-0793-4be0-bb7a-8af1924180ac">
+				<File Id="Images_CryptoLogos_64_vib_2x.png" Name="vib@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\vib@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_vibe_2x.png" Guid="d4b1633c-396f-4042-969b-68c2a615fad3">
+				<File Id="Images_CryptoLogos_64_vibe_2x.png" Name="vibe@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\vibe@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_wan_2x.png" Guid="fa23ee63-9c1a-4415-90a3-5ea2937d4b4a">
+				<File Id="Images_CryptoLogos_64_wan_2x.png" Name="wan@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\wan@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_wgr_2x.png" Guid="6b5bba21-d3a7-4090-9fb1-9df54582e81d">
+				<File Id="Images_CryptoLogos_64_wgr_2x.png" Name="wgr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\wgr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_wings_2x.png" Guid="0b99acb9-3bf8-4780-9b60-18d856138a3e">
+				<File Id="Images_CryptoLogos_64_wings_2x.png" Name="wings@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\wings@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_wpr_2x.png" Guid="22af6968-bf74-4843-a23d-389423d07029">
+				<File Id="Images_CryptoLogos_64_wpr_2x.png" Name="wpr@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\wpr@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xas_2x.png" Guid="655faaad-7c47-4d7d-a37c-a8a9a2a9a7c9">
+				<File Id="Images_CryptoLogos_64_xas_2x.png" Name="xas@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xas@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_xby_2x.png" Guid="e7143d7c-e54b-46dd-83e8-d158b0c08f24">
+				<File Id="Images_CryptoLogos_64_xby_2x.png" Name="xby@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\xby@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_yoyow_2x.png" Guid="1e8638ed-6354-4629-8061-ee70ed7118c6">
+				<File Id="Images_CryptoLogos_64_yoyow_2x.png" Name="yoyow@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\yoyow@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_zil_2x.png" Guid="534265d0-6057-4a9a-9a7d-5be33f22d096">
+				<File Id="Images_CryptoLogos_64_zil_2x.png" Name="zil@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\zil@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_cdt_2x.png" Guid="ea6465e9-8be6-422b-a68c-ffb8d8140b37">
+				<File Id="Images_CryptoLogos_64_cdt_2x.png" Name="cdt@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\cdt@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_chat_2x.png" Guid="7f29fc1e-9c73-46cb-908d-bd170bc1009b">
+				<File Id="Images_CryptoLogos_64_chat_2x.png" Name="chat@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\chat@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_chips_2x.png" Guid="40df6a87-7aaa-42c3-9dc6-f27515fa2013">
+				<File Id="Images_CryptoLogos_64_chips_2x.png" Name="chips@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\chips@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_poly_2x.png" Guid="13229e5f-79ec-4b55-86fa-65e64e57a6e5">
+				<File Id="Images_CryptoLogos_64_poly_2x.png" Name="poly@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\poly@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_pxc_2x.png" Guid="d95d80c0-d773-4df1-934a-21fafeb4a254">
+				<File Id="Images_CryptoLogos_64_pxc_2x.png" Name="pxc@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\pxc@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_qrl_2x.png" Guid="f0d41cea-aa04-442e-befb-4534577fcdcc">
+				<File Id="Images_CryptoLogos_64_qrl_2x.png" Name="qrl@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\qrl@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_generic_2x.png" Guid="1f7a50c8-2ead-4c77-8b3a-a85f9df06057">
+				<File Id="Images_CryptoLogos_64_generic_2x.png" Name="generic@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\generic@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_gto_2x.png" Guid="13d8fb33-9fc0-40d7-b57c-e04e69da69c3">
+				<File Id="Images_CryptoLogos_64_gto_2x.png" Name="gto@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\gto@2x.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_64_html_2x.png" Guid="6d17fa55-291a-49f3-ae09-46195082a8bd">
+				<File Id="Images_CryptoLogos_64_html_2x.png" Name="html@2x.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\64\html@2x.png" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="Images_Icons_64_files" Directory="Images_Icons_64">
+			<Component Id="Images_Icons_64_pick64.png" Guid="c6f83bc4-36b5-46f9-b091-304683c917de">
+				<File Id="Images_Icons_64_pick64.png" Name="pick64.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\Icons\64\pick64.png" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="Images_Icons_48_files" Directory="Images_Icons_48">
+			<Component Id="Images_Icons_48_pick48.ico" Guid="03407f69-0f9e-43fc-b3f6-b5e38c906522">
+				<File Id="Images_Icons_48_pick48.ico" Name="pick48.ico" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\Icons\48\pick48.ico" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="Images_CryptoLogos_32_files" Directory="Images_CryptoLogos_32">
+			<Component Id="Images_CryptoLogos_32__pac.png" Guid="742d4813-0650-4fff-91a4-d691ec446cf4">
+				<File Id="Images_CryptoLogos_32__pac.png" Name="$pac.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\$pac.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_abt.png" Guid="51aa81c5-eafd-46ec-b92f-2538176868bf">
+				<File Id="Images_CryptoLogos_32_abt.png" Name="abt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\abt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_act.png" Guid="355ce1ab-adc4-4c06-8d7c-89c4b2e40eee">
+				<File Id="Images_CryptoLogos_32_act.png" Name="act.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\act.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ada.png" Guid="abc6d491-889b-40d2-9722-73fb5a604268">
+				<File Id="Images_CryptoLogos_32_ada.png" Name="ada.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ada.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_adx.png" Guid="a0341bff-251c-440b-a08f-18abd81bba05">
+				<File Id="Images_CryptoLogos_32_adx.png" Name="adx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\adx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ae.png" Guid="dc6b1f9c-5849-49d7-95e9-b531f7bb1655">
+				<File Id="Images_CryptoLogos_32_ae.png" Name="ae.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ae.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_agrs.png" Guid="e99175f2-a430-42a5-94a7-bf219a961ca0">
+				<File Id="Images_CryptoLogos_32_agrs.png" Name="agrs.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\agrs.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_aion.png" Guid="e7b39791-3d3e-47d0-9b57-d860b2a35532">
+				<File Id="Images_CryptoLogos_32_aion.png" Name="aion.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\aion.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_agi.png" Guid="ff9006e4-4004-42a1-90ac-5b16e4e0112a">
+				<File Id="Images_CryptoLogos_32_agi.png" Name="agi.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\agi.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_amb.png" Guid="d3135db4-66c7-406f-aa30-c4421d164f04">
+				<File Id="Images_CryptoLogos_32_amb.png" Name="amb.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\amb.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ant.png" Guid="3e45eb5d-8b94-437c-85af-73e0e2078e03">
+				<File Id="Images_CryptoLogos_32_ant.png" Name="ant.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ant.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_appc.png" Guid="6e010484-3bc0-4f5a-ba6f-51ad00fad9c4">
+				<File Id="Images_CryptoLogos_32_appc.png" Name="appc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\appc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_amp.png" Guid="89aaefc0-6d1e-41ff-9ee7-03728176b4db">
+				<File Id="Images_CryptoLogos_32_amp.png" Name="amp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\amp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ardr.png" Guid="b1d03bdb-2b14-4963-9876-443aa325e165">
+				<File Id="Images_CryptoLogos_32_ardr.png" Name="ardr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ardr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ark.png" Guid="ebf4a104-456a-48ad-bd30-750abfda8171">
+				<File Id="Images_CryptoLogos_32_ark.png" Name="ark.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ark.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_arn.png" Guid="aab91089-d266-4200-b4b0-466e0e54cda5">
+				<File Id="Images_CryptoLogos_32_arn.png" Name="arn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\arn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ary.png" Guid="6c10a723-845a-4386-bbb3-a81cd8d8d7d1">
+				<File Id="Images_CryptoLogos_32_ary.png" Name="ary.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ary.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_atm.png" Guid="44aca958-528f-4891-8aef-c9a45bf7471d">
+				<File Id="Images_CryptoLogos_32_atm.png" Name="atm.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\atm.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_auto.png" Guid="59018f32-578b-4a4a-be4f-dc3876fa8f07">
+				<File Id="Images_CryptoLogos_32_auto.png" Name="auto.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\auto.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ast.png" Guid="7713cf08-5b44-4ec9-b905-630a39ea5709">
+				<File Id="Images_CryptoLogos_32_ast.png" Name="ast.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ast.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bat.png" Guid="04a0e8e9-5c39-4982-b653-575e5af7568b">
+				<File Id="Images_CryptoLogos_32_bat.png" Name="bat.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bat.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bay.png" Guid="2b660ab5-f550-40fd-94c0-22d688542bf2">
+				<File Id="Images_CryptoLogos_32_bay.png" Name="bay.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bay.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bcc.png" Guid="a03c9f5c-2712-447f-aad9-80bacebf5338">
+				<File Id="Images_CryptoLogos_32_bcc.png" Name="bcc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bcc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bcd.png" Guid="d0b9d621-cdc8-4ed9-86ed-2a1984ee4f6e">
+				<File Id="Images_CryptoLogos_32_bcd.png" Name="bcd.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bcd.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bch.png" Guid="4fa008ee-9d71-407f-98c4-a87031e2fb54">
+				<File Id="Images_CryptoLogos_32_bch.png" Name="bch.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bch.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bcn.png" Guid="96362cb0-fc98-47ab-b9db-3accf79657a1">
+				<File Id="Images_CryptoLogos_32_bcn.png" Name="bcn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bcn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bco.png" Guid="6ddabbd2-6eda-4af8-9ee5-5d10ce85eabd">
+				<File Id="Images_CryptoLogos_32_bco.png" Name="bco.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bco.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bcpt.png" Guid="42daacb6-c56a-4ac1-9467-9794e31ed181">
+				<File Id="Images_CryptoLogos_32_bcpt.png" Name="bcpt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bcpt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bdl.png" Guid="0a834be7-0382-4ad8-8451-2eae584beb65">
+				<File Id="Images_CryptoLogos_32_bdl.png" Name="bdl.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bdl.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bela.png" Guid="14c5dd34-6357-47a1-ba82-a6d942f870e7">
+				<File Id="Images_CryptoLogos_32_bela.png" Name="bela.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bela.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bix.png" Guid="bb757884-c617-4eed-a38c-3371ead9ad16">
+				<File Id="Images_CryptoLogos_32_bix.png" Name="bix.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bix.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_blcn.png" Guid="a9dfdd47-d78d-4c12-ae18-8d6482b6283c">
+				<File Id="Images_CryptoLogos_32_blcn.png" Name="blcn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\blcn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_blk.png" Guid="33ce84af-40ff-49f6-99b0-262219a075a3">
+				<File Id="Images_CryptoLogos_32_blk.png" Name="blk.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\blk.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_block.png" Guid="9b727865-db92-4edb-aa47-7753978ea0f8">
+				<File Id="Images_CryptoLogos_32_block.png" Name="block.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\block.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_blz.png" Guid="4898e412-9440-4fa8-aeda-be4b4c740a2c">
+				<File Id="Images_CryptoLogos_32_blz.png" Name="blz.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\blz.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bnb.png" Guid="0885e5ca-0d1d-45b8-9b75-f771873ad4a8">
+				<File Id="Images_CryptoLogos_32_bnb.png" Name="bnb.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bnb.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bnt.png" Guid="eff3fc8b-e62c-483d-8c79-3ee64b39750d">
+				<File Id="Images_CryptoLogos_32_bnt.png" Name="bnt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bnt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bnty.png" Guid="528dbf46-c6b6-4dcd-aa6d-169e71a0fa91">
+				<File Id="Images_CryptoLogos_32_bnty.png" Name="bnty.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bnty.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bos.png" Guid="6f05b792-f2ed-4523-acd0-bfbf5521c3ca">
+				<File Id="Images_CryptoLogos_32_bos.png" Name="bos.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bos.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bpt.png" Guid="b4f2c154-7031-4ae4-8e85-5c19e7ecec71">
+				<File Id="Images_CryptoLogos_32_bpt.png" Name="bpt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bpt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bq.png" Guid="a815e033-df2e-499c-89ee-e37e52078767">
+				<File Id="Images_CryptoLogos_32_bq.png" Name="bq.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bq.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bqx.png" Guid="6e530dc8-dfa1-4abe-98ac-6e65af001c65">
+				<File Id="Images_CryptoLogos_32_bqx.png" Name="bqx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bqx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_brd.png" Guid="dcedb9fd-d343-4fd9-bb47-a12668fea7f7">
+				<File Id="Images_CryptoLogos_32_brd.png" Name="brd.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\brd.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_btc.png" Guid="7adcaff2-abda-4a8f-8c59-008055a195d5">
+				<File Id="Images_CryptoLogos_32_btc.png" Name="btc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\btc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_btcd.png" Guid="2de56298-6875-43a4-9acf-ea620da518a3">
+				<File Id="Images_CryptoLogos_32_btcd.png" Name="btcd.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\btcd.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_btcp.png" Guid="e5c73589-ba27-4aff-9983-3b4856e5c317">
+				<File Id="Images_CryptoLogos_32_btcp.png" Name="btcp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\btcp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_btg.png" Guid="addba462-a3fe-4654-8456-594306b03975">
+				<File Id="Images_CryptoLogos_32_btg.png" Name="btg.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\btg.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_btcz.png" Guid="16e061f9-3f8c-4256-89e1-1f152684fed9">
+				<File Id="Images_CryptoLogos_32_btcz.png" Name="btcz.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\btcz.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_bts.png" Guid="3dfc6818-76fa-451b-ba8a-f75f17cfb10d">
+				<File Id="Images_CryptoLogos_32_bts.png" Name="bts.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\bts.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_btm.png" Guid="451e760a-8040-44b0-9a1d-8f7db19c9971">
+				<File Id="Images_CryptoLogos_32_btm.png" Name="btm.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\btm.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_btx.png" Guid="689018a6-755e-45c1-b2a9-ec632d4c7c45">
+				<File Id="Images_CryptoLogos_32_btx.png" Name="btx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\btx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_burst.png" Guid="dc0280f9-32ca-4ee0-a6ae-7a377ca0829b">
+				<File Id="Images_CryptoLogos_32_burst.png" Name="burst.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\burst.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cdn.png" Guid="b15baaaa-75a1-43c3-a613-b0237e0d0be8">
+				<File Id="Images_CryptoLogos_32_cdn.png" Name="cdn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cdn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cdt.png" Guid="a1f1571d-8145-4569-9ddb-a20a4dfcde55">
+				<File Id="Images_CryptoLogos_32_cdt.png" Name="cdt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cdt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_chat.png" Guid="21065480-f129-47e1-941e-c59f29d0923c">
+				<File Id="Images_CryptoLogos_32_chat.png" Name="chat.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\chat.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_chips.png" Guid="66ad31de-7447-4988-ab55-1f37db0adf9c">
+				<File Id="Images_CryptoLogos_32_chips.png" Name="chips.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\chips.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cix.png" Guid="13b9def4-b48a-497b-ab73-14685f76b0e3">
+				<File Id="Images_CryptoLogos_32_cix.png" Name="cix.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cix.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_clam.png" Guid="a38cffe5-52d1-4c93-9c97-9dc9fb9b0366">
+				<File Id="Images_CryptoLogos_32_clam.png" Name="clam.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\clam.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cloak.png" Guid="44d2e468-64b6-4d44-85af-94bbba40151b">
+				<File Id="Images_CryptoLogos_32_cloak.png" Name="cloak.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cloak.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cmt.png" Guid="81c3aa7f-805d-4030-a7ae-1dfdbf1873d2">
+				<File Id="Images_CryptoLogos_32_cmt.png" Name="cmt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cmt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cnx.png" Guid="7a7f1317-958e-4f3b-9637-02e97f1fb499">
+				<File Id="Images_CryptoLogos_32_cnx.png" Name="cnx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cnx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cnd.png" Guid="cb4c2e54-27a8-44ab-8784-e5d18e9d66d0">
+				<File Id="Images_CryptoLogos_32_cnd.png" Name="cnd.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cnd.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cob.png" Guid="496b1f61-fcde-47f5-9e9d-8e5b6cfb0888">
+				<File Id="Images_CryptoLogos_32_cob.png" Name="cob.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cob.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cny.png" Guid="7aa3261d-ed55-4b80-a48f-16b4363db1fb">
+				<File Id="Images_CryptoLogos_32_cny.png" Name="cny.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cny.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_crc.png" Guid="6354be54-e2b5-4adb-a2c6-a70c82821b11">
+				<File Id="Images_CryptoLogos_32_crc.png" Name="crc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\crc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cred.png" Guid="1158e1d1-bdaa-4791-be54-0c523ad67a08">
+				<File Id="Images_CryptoLogos_32_cred.png" Name="cred.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cred.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_crpt.png" Guid="b9da4417-5fed-41fa-b12d-046ae9b651f5">
+				<File Id="Images_CryptoLogos_32_crpt.png" Name="crpt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\crpt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cs.png" Guid="46810095-1f92-4b89-923d-eb8f0773bd82">
+				<File Id="Images_CryptoLogos_32_cs.png" Name="cs.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cs.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ctr.png" Guid="57538075-eac4-4d50-805d-82ded189223b">
+				<File Id="Images_CryptoLogos_32_ctr.png" Name="ctr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ctr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_cvc.png" Guid="13e4b340-6062-4494-9654-3b0078a20b3b">
+				<File Id="Images_CryptoLogos_32_cvc.png" Name="cvc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\cvc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dash.png" Guid="ea03f330-58f6-4f44-af21-31c6d552f9d1">
+				<File Id="Images_CryptoLogos_32_dash.png" Name="dash.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dash.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dat.png" Guid="d2fc678f-616d-4bc4-82d0-18af198afb95">
+				<File Id="Images_CryptoLogos_32_dat.png" Name="dat.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dat.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_data.png" Guid="9087b6c3-3467-4e9f-b2b7-602b6ca1c0c6">
+				<File Id="Images_CryptoLogos_32_data.png" Name="data.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\data.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dbc.png" Guid="ac93cca0-2cb6-4d78-90b1-0384a45eef29">
+				<File Id="Images_CryptoLogos_32_dbc.png" Name="dbc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dbc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dcn.png" Guid="be711982-ea01-47be-9780-1e542b5f0492">
+				<File Id="Images_CryptoLogos_32_dcn.png" Name="dcn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dcn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dcr.png" Guid="5f12deaa-e7fa-43e5-a613-a4a923916aeb">
+				<File Id="Images_CryptoLogos_32_dcr.png" Name="dcr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dcr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dent.png" Guid="b4a4b61f-b27c-4bf1-a603-abaadb343f5d">
+				<File Id="Images_CryptoLogos_32_dent.png" Name="dent.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dent.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dew.png" Guid="b7f52857-3fee-4f27-9945-6b1e8e4175ad">
+				<File Id="Images_CryptoLogos_32_dew.png" Name="dew.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dew.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dgb.png" Guid="f584c3a0-14c7-4eef-8a27-1a1a36100686">
+				<File Id="Images_CryptoLogos_32_dgb.png" Name="dgb.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dgb.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dgd.png" Guid="95f0bef9-f0ac-4040-a9f4-417721dc1015">
+				<File Id="Images_CryptoLogos_32_dgd.png" Name="dgd.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dgd.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dlt.png" Guid="f15142f9-a4f2-4641-a187-c0ebc8c2bd4f">
+				<File Id="Images_CryptoLogos_32_dlt.png" Name="dlt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dlt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dnt.png" Guid="cb6cbe88-c844-420d-bcbb-c09753220661">
+				<File Id="Images_CryptoLogos_32_dnt.png" Name="dnt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dnt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_doge.png" Guid="fd94f497-0085-4eee-bde3-1c5f9d48584b">
+				<File Id="Images_CryptoLogos_32_doge.png" Name="doge.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\doge.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_drgn.png" Guid="42211ffc-e457-4e58-aa9f-9924e5383c71">
+				<File Id="Images_CryptoLogos_32_drgn.png" Name="drgn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\drgn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dta.png" Guid="461ebaf4-27ac-4ceb-960a-a041d766d713">
+				<File Id="Images_CryptoLogos_32_dta.png" Name="dta.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dta.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_dtr.png" Guid="322c666d-43d9-43c6-912b-9b0b6eeaa0d2">
+				<File Id="Images_CryptoLogos_32_dtr.png" Name="dtr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\dtr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ebst.png" Guid="f31431df-d807-48d1-8dcf-8fce5417ccdb">
+				<File Id="Images_CryptoLogos_32_ebst.png" Name="ebst.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ebst.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_edg.png" Guid="c01daa0a-7174-4eb1-b915-70ebd971fce0">
+				<File Id="Images_CryptoLogos_32_edg.png" Name="edg.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\edg.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_edo.png" Guid="3cac7130-378b-4a16-8f77-22db33f62698">
+				<File Id="Images_CryptoLogos_32_edo.png" Name="edo.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\edo.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_edoge.png" Guid="21ea5c1e-e0d2-4e7c-8492-0f4f710e1bf0">
+				<File Id="Images_CryptoLogos_32_edoge.png" Name="edoge.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\edoge.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_elf.png" Guid="e78211db-ca20-4a2e-a59e-af0d9cf621c1">
+				<File Id="Images_CryptoLogos_32_elf.png" Name="elf.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\elf.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_elix.png" Guid="188d73e9-d03f-4377-a816-80002aa7a78c">
+				<File Id="Images_CryptoLogos_32_elix.png" Name="elix.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\elix.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ella.png" Guid="aaaf5b2e-bd29-46d1-a5da-e7b56c5492bc">
+				<File Id="Images_CryptoLogos_32_ella.png" Name="ella.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ella.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_emc.png" Guid="85bde45e-5dba-47e5-bfeb-ecbd2cccd83d">
+				<File Id="Images_CryptoLogos_32_emc.png" Name="emc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\emc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_emc2.png" Guid="b0cc0e22-c2a2-46af-b1cb-91069497c756">
+				<File Id="Images_CryptoLogos_32_emc2.png" Name="emc2.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\emc2.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_eng.png" Guid="75584de6-e80b-432b-adcc-54606cc6cb97">
+				<File Id="Images_CryptoLogos_32_eng.png" Name="eng.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\eng.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_enj.png" Guid="ce4a7dc1-7e43-4863-baa7-723a5542f3a6">
+				<File Id="Images_CryptoLogos_32_enj.png" Name="enj.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\enj.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_eos.png" Guid="8e27eeee-dba7-40cf-b766-68b515a1b9c1">
+				<File Id="Images_CryptoLogos_32_eos.png" Name="eos.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\eos.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_equa.png" Guid="d6198964-e132-438e-9af0-339bafba46fc">
+				<File Id="Images_CryptoLogos_32_equa.png" Name="equa.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\equa.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_etc.png" Guid="4fd7c18d-ed85-48d0-93e0-ece9873a84fb">
+				<File Id="Images_CryptoLogos_32_etc.png" Name="etc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\etc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_eth.png" Guid="a5828a62-01f6-4cf4-b11a-6524c28b36d3">
+				<File Id="Images_CryptoLogos_32_eth.png" Name="eth.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\eth.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ethos.png" Guid="7c6cef97-ca35-4361-871f-827bd1f97393">
+				<File Id="Images_CryptoLogos_32_ethos.png" Name="ethos.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ethos.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_etn.png" Guid="19b5b6b0-0495-415d-8b19-72aa7074b0c8">
+				<File Id="Images_CryptoLogos_32_etn.png" Name="etn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\etn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_etp.png" Guid="c74554d8-3e8b-497b-9962-196331b72d12">
+				<File Id="Images_CryptoLogos_32_etp.png" Name="etp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\etp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_eur.png" Guid="94f6adc8-d212-4fad-8ce9-e0f504149ea4">
+				<File Id="Images_CryptoLogos_32_eur.png" Name="eur.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\eur.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_evx.png" Guid="4e46b463-9479-45bb-9201-c6dafff62125">
+				<File Id="Images_CryptoLogos_32_evx.png" Name="evx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\evx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_exmo.png" Guid="199398de-50aa-4711-ae34-fd33f8e219af">
+				<File Id="Images_CryptoLogos_32_exmo.png" Name="exmo.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\exmo.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_exp.png" Guid="3b8764db-f220-43cb-8bfb-124342fd1873">
+				<File Id="Images_CryptoLogos_32_exp.png" Name="exp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\exp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_fair.png" Guid="732bef11-0777-4be5-9814-38c8264b4477">
+				<File Id="Images_CryptoLogos_32_fair.png" Name="fair.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\fair.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_fct.png" Guid="0d00b49c-0ef4-4483-b8a0-bfc26fdc52a5">
+				<File Id="Images_CryptoLogos_32_fct.png" Name="fct.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\fct.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_fil.png" Guid="e3a3c058-757f-4343-a33e-51b86fed0194">
+				<File Id="Images_CryptoLogos_32_fil.png" Name="fil.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\fil.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_fldc.png" Guid="42d17378-4cb4-40b8-8381-c7bf413cefe0">
+				<File Id="Images_CryptoLogos_32_fldc.png" Name="fldc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\fldc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_flo.png" Guid="3cec7e6f-6dad-4b8f-aea2-0a261f639844">
+				<File Id="Images_CryptoLogos_32_flo.png" Name="flo.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\flo.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_fsn.png" Guid="e7e36b64-fc7a-4259-bc65-d044784227d5">
+				<File Id="Images_CryptoLogos_32_fsn.png" Name="fsn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\fsn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ftc.png" Guid="89bc8677-1d51-484a-a0c8-c9b99525216d">
+				<File Id="Images_CryptoLogos_32_ftc.png" Name="ftc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ftc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_fuel.png" Guid="fc3db0dd-fab6-4e11-bc40-19c616da5f6b">
+				<File Id="Images_CryptoLogos_32_fuel.png" Name="fuel.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\fuel.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_fun.png" Guid="503be160-21da-4fcd-9ed9-6ba87b463972">
+				<File Id="Images_CryptoLogos_32_fun.png" Name="fun.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\fun.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_game.png" Guid="4547b5b2-cd59-43d5-84fe-5c71d7c3e52d">
+				<File Id="Images_CryptoLogos_32_game.png" Name="game.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\game.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gas.png" Guid="3a0a8aee-dcbd-4773-9d53-8302d2d1d609">
+				<File Id="Images_CryptoLogos_32_gas.png" Name="gas.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gas.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gbp.png" Guid="62dd5b3e-bb2b-4438-b06d-81468f87cc98">
+				<File Id="Images_CryptoLogos_32_gbp.png" Name="gbp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gbp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gbx.png" Guid="a75be74e-9e04-4e6f-b059-22b7d8a3189e">
+				<File Id="Images_CryptoLogos_32_gbx.png" Name="gbx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gbx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gbyte.png" Guid="04fdf816-6132-456d-a2d1-578a0a0ae5af">
+				<File Id="Images_CryptoLogos_32_gbyte.png" Name="gbyte.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gbyte.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_generic.png" Guid="5cdc0314-61c4-4bb1-b1fc-2a8583dab6b3">
+				<File Id="Images_CryptoLogos_32_generic.png" Name="generic.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\generic.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gno.png" Guid="5558dc83-9c83-496a-9ebe-13c5cedddff2">
+				<File Id="Images_CryptoLogos_32_gno.png" Name="gno.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gno.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gnt.png" Guid="b4089df0-3a9a-415c-a3a9-40a7d4954143">
+				<File Id="Images_CryptoLogos_32_gnt.png" Name="gnt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gnt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_grc.png" Guid="c00c1c84-600e-4e57-826b-288523d3500d">
+				<File Id="Images_CryptoLogos_32_grc.png" Name="grc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\grc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_grs.png" Guid="10bb1bdf-d76e-4dc0-b15d-ba139c6f77c0">
+				<File Id="Images_CryptoLogos_32_grs.png" Name="grs.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\grs.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gto.png" Guid="dea3c51e-707d-4135-b201-e723b5140a0b">
+				<File Id="Images_CryptoLogos_32_gto.png" Name="gto.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gto.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gup.png" Guid="0184bee7-30a4-43bb-b1ca-b4ed7a778939">
+				<File Id="Images_CryptoLogos_32_gup.png" Name="gup.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gup.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gvt.png" Guid="5c0fdb12-a621-479f-91d2-a7daa823fae5">
+				<File Id="Images_CryptoLogos_32_gvt.png" Name="gvt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gvt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_gxs.png" Guid="a87c968b-943a-4432-9901-a6779a8bcd41">
+				<File Id="Images_CryptoLogos_32_gxs.png" Name="gxs.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\gxs.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_hpb.png" Guid="7eb93ecb-69ec-4c9f-bd08-368375eedae7">
+				<File Id="Images_CryptoLogos_32_hpb.png" Name="hpb.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\hpb.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_hsr.png" Guid="b2951a11-7b84-4ed7-a06f-c4ba16ae5936">
+				<File Id="Images_CryptoLogos_32_hsr.png" Name="hsr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\hsr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_huc.png" Guid="de34338b-a5d2-49b8-bdb2-aa027250be1d">
+				<File Id="Images_CryptoLogos_32_huc.png" Name="huc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\huc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_html.png" Guid="06ba5b37-6af3-4530-a42b-a27ee99005e4">
+				<File Id="Images_CryptoLogos_32_html.png" Name="html.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\html.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_hush.png" Guid="acea8cda-04f1-4b0e-bff3-f854e26506f0">
+				<File Id="Images_CryptoLogos_32_hush.png" Name="hush.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\hush.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_icn.png" Guid="b6734400-86c1-48fe-825c-7a2cef33d6e0">
+				<File Id="Images_CryptoLogos_32_icn.png" Name="icn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\icn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ignis.png" Guid="b1f1cb7c-86da-47b1-b3e9-f5654d782446">
+				<File Id="Images_CryptoLogos_32_ignis.png" Name="ignis.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ignis.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_icx.png" Guid="e62fc9ca-d24a-48f7-8275-5d147f5ef96c">
+				<File Id="Images_CryptoLogos_32_icx.png" Name="icx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\icx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ink.png" Guid="b0f8a994-0602-4fb7-8f9c-1304fe31049f">
+				<File Id="Images_CryptoLogos_32_ink.png" Name="ink.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ink.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_inn.png" Guid="93453ab3-9a67-4814-9e0e-4de3881e682e">
+				<File Id="Images_CryptoLogos_32_inn.png" Name="inn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\inn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ins.png" Guid="e4b25ce1-c129-464e-8c6a-88bbbdd7259f">
+				<File Id="Images_CryptoLogos_32_ins.png" Name="ins.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ins.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ion.png" Guid="5c27b831-de17-4a93-8d8b-cd66d5bfde37">
+				<File Id="Images_CryptoLogos_32_ion.png" Name="ion.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ion.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_iop.png" Guid="b17bd387-4c3f-4e43-a419-3e7b03f88bcd">
+				<File Id="Images_CryptoLogos_32_iop.png" Name="iop.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\iop.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_jnt.png" Guid="0865da7c-140a-448a-9707-63a0f3f394d0">
+				<File Id="Images_CryptoLogos_32_jnt.png" Name="jnt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\jnt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_iost.png" Guid="8d7837f7-4dc0-4a30-a2b1-89fb8935a456">
+				<File Id="Images_CryptoLogos_32_iost.png" Name="iost.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\iost.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_itc.png" Guid="44dbc26e-3ba9-4726-b4bb-eaa6691d5b0a">
+				<File Id="Images_CryptoLogos_32_itc.png" Name="itc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\itc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_jpy.png" Guid="883582b2-fd0e-4d66-bc6d-f2f98d11001e">
+				<File Id="Images_CryptoLogos_32_jpy.png" Name="jpy.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\jpy.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_kcs.png" Guid="cb218f6b-6a56-4bb9-9372-e41c8d537832">
+				<File Id="Images_CryptoLogos_32_kcs.png" Name="kcs.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\kcs.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_kin.png" Guid="e549e1ae-4e17-4dba-b700-761bef3d57bd">
+				<File Id="Images_CryptoLogos_32_kin.png" Name="kin.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\kin.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_kmd.png" Guid="538f310b-efb8-4d26-9111-cc4ed8a9038b">
+				<File Id="Images_CryptoLogos_32_kmd.png" Name="kmd.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\kmd.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_knc.png" Guid="ca266c19-6eb2-436e-905d-b043bacb6e1d">
+				<File Id="Images_CryptoLogos_32_knc.png" Name="knc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\knc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_krb.png" Guid="d3a73f76-019d-491c-a323-ebb47e54d2e7">
+				<File Id="Images_CryptoLogos_32_krb.png" Name="krb.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\krb.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_lbc.png" Guid="487483cb-4139-4150-9594-29b3913e6163">
+				<File Id="Images_CryptoLogos_32_lbc.png" Name="lbc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\lbc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_link.png" Guid="9932a7a7-2aca-4554-9a1a-47b94d3452aa">
+				<File Id="Images_CryptoLogos_32_link.png" Name="link.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\link.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_lend.png" Guid="c61ac943-c3dc-43ee-ba42-e80031ef4db6">
+				<File Id="Images_CryptoLogos_32_lend.png" Name="lend.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\lend.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_lkk.png" Guid="17808737-39b9-46c7-acbb-8deec59e0498">
+				<File Id="Images_CryptoLogos_32_lkk.png" Name="lkk.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\lkk.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_lrc.png" Guid="eea52dd8-7ded-4cc5-a520-c065251068eb">
+				<File Id="Images_CryptoLogos_32_lrc.png" Name="lrc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\lrc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_lsk.png" Guid="469aa768-066e-4e29-9e5e-89173992e070">
+				<File Id="Images_CryptoLogos_32_lsk.png" Name="lsk.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\lsk.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ltc.png" Guid="f6c750f8-a215-43be-a914-ca88fde1049b">
+				<File Id="Images_CryptoLogos_32_ltc.png" Name="ltc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ltc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_lun.png" Guid="2861b37d-f13c-4bd7-b2c0-a998216d421a">
+				<File Id="Images_CryptoLogos_32_lun.png" Name="lun.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\lun.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_maid.png" Guid="18fcaea3-78e1-4db1-b970-089112ba3e91">
+				<File Id="Images_CryptoLogos_32_maid.png" Name="maid.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\maid.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mana.png" Guid="4ac0ce6c-bc80-4d22-83de-9f909772801c">
+				<File Id="Images_CryptoLogos_32_mana.png" Name="mana.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mana.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mcap.png" Guid="9899b52d-42b7-4f05-9ea0-0effa6deec5f">
+				<File Id="Images_CryptoLogos_32_mcap.png" Name="mcap.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mcap.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mco.png" Guid="8f70e571-e218-4046-8b10-ff68611c88e6">
+				<File Id="Images_CryptoLogos_32_mco.png" Name="mco.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mco.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mda.png" Guid="6d33186d-35d7-4a08-92e9-e5690ecf49fc">
+				<File Id="Images_CryptoLogos_32_mda.png" Name="mda.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mda.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mds.png" Guid="4817ce33-0419-4b30-bea5-391d2f4ce667">
+				<File Id="Images_CryptoLogos_32_mds.png" Name="mds.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mds.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_med.png" Guid="2abc1146-4102-4979-afe9-6d58c695ec2a">
+				<File Id="Images_CryptoLogos_32_med.png" Name="med.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\med.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_miota.png" Guid="d0b07cd3-cfc2-4bda-a44a-7421e5507cf4">
+				<File Id="Images_CryptoLogos_32_miota.png" Name="miota.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\miota.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mkr.png" Guid="fbbb3e32-5809-4f8e-8f51-2744f66dadf0">
+				<File Id="Images_CryptoLogos_32_mkr.png" Name="mkr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mkr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mln.png" Guid="7224f887-93d6-4c4d-bf90-5e22d0ab499e">
+				<File Id="Images_CryptoLogos_32_mln.png" Name="mln.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mln.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mnx.png" Guid="b46d1363-91bd-434f-8b41-6bf2c28dca68">
+				<File Id="Images_CryptoLogos_32_mnx.png" Name="mnx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mnx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mod.png" Guid="a5d8e471-fdf2-4474-a859-a31f42d64268">
+				<File Id="Images_CryptoLogos_32_mod.png" Name="mod.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mod.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mona.png" Guid="027dbcee-d077-4b36-8876-e6cb3de42e0c">
+				<File Id="Images_CryptoLogos_32_mona.png" Name="mona.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mona.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mth.png" Guid="2b7f5384-cffc-4a15-847d-1f1629824a43">
+				<File Id="Images_CryptoLogos_32_mth.png" Name="mth.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mth.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mtl.png" Guid="304bd9ca-10a2-4322-ac66-2b2f610a6a1b">
+				<File Id="Images_CryptoLogos_32_mtl.png" Name="mtl.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mtl.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_music.png" Guid="27d5063b-924d-4819-aa83-9b5004323008">
+				<File Id="Images_CryptoLogos_32_music.png" Name="music.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\music.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_mzc.png" Guid="7b3c20c9-2f88-4bb5-9b1e-5fab50dd96f8">
+				<File Id="Images_CryptoLogos_32_mzc.png" Name="mzc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\mzc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nano.png" Guid="d499e3cc-54c1-4ae8-8503-c038ed64ccd8">
+				<File Id="Images_CryptoLogos_32_nano.png" Name="nano.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nano.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nas.png" Guid="e5244329-3d4f-4be1-acbe-b9f9ea8b0622">
+				<File Id="Images_CryptoLogos_32_nas.png" Name="nas.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nas.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nav.png" Guid="7364be13-8d86-4e46-8035-ca89a5348ac4">
+				<File Id="Images_CryptoLogos_32_nav.png" Name="nav.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nav.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ncash.png" Guid="8e86f5e4-7df4-44ba-9a96-7771d8c96447">
+				<File Id="Images_CryptoLogos_32_ncash.png" Name="ncash.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ncash.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ndz.png" Guid="45ed5379-fe66-4c85-8e08-fcaaa4eda415">
+				<File Id="Images_CryptoLogos_32_ndz.png" Name="ndz.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ndz.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nebl.png" Guid="ad397f67-4e85-457e-b541-76b96d672425">
+				<File Id="Images_CryptoLogos_32_nebl.png" Name="nebl.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nebl.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_neo.png" Guid="252cbd0f-388e-43c1-a260-da836f10d65e">
+				<File Id="Images_CryptoLogos_32_neo.png" Name="neo.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\neo.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_neos.png" Guid="751dfd1f-06c5-4b79-b28d-8d6a34c35aac">
+				<File Id="Images_CryptoLogos_32_neos.png" Name="neos.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\neos.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ngc.png" Guid="d6682003-39d6-4327-b66a-dc0865aeeb02">
+				<File Id="Images_CryptoLogos_32_ngc.png" Name="ngc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ngc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nlc2.png" Guid="390ae2cb-4dc4-4808-827f-98d079a06929">
+				<File Id="Images_CryptoLogos_32_nlc2.png" Name="nlc2.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nlc2.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nlg.png" Guid="bd7e8e2d-5efa-4228-abca-72f26c61814f">
+				<File Id="Images_CryptoLogos_32_nlg.png" Name="nlg.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nlg.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nmc.png" Guid="b63409ee-7e58-4935-8b5f-2b01444eda35">
+				<File Id="Images_CryptoLogos_32_nmc.png" Name="nmc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nmc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nuls.png" Guid="dc0f3054-5a67-4b96-8fda-f50e485037ba">
+				<File Id="Images_CryptoLogos_32_nuls.png" Name="nuls.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nuls.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nxt.png" Guid="56dcaa2d-90ef-4981-9fe0-07c69950be35">
+				<File Id="Images_CryptoLogos_32_nxt.png" Name="nxt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nxt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_nxs.png" Guid="b31108dd-3bd9-47bb-b5f3-34c74d6ad5c5">
+				<File Id="Images_CryptoLogos_32_nxs.png" Name="nxs.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\nxs.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_oax.png" Guid="9a787492-867e-466d-881e-4309eb90f973">
+				<File Id="Images_CryptoLogos_32_oax.png" Name="oax.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\oax.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_omni.png" Guid="aa9c4884-aea8-410b-8584-24c058c53b55">
+				<File Id="Images_CryptoLogos_32_omni.png" Name="omni.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\omni.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_omg.png" Guid="15531e15-65f3-4215-a029-29572c72d941">
+				<File Id="Images_CryptoLogos_32_omg.png" Name="omg.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\omg.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ont.png" Guid="3ca1b6b3-1bd7-46b1-869f-7b7e9fe1c2de">
+				<File Id="Images_CryptoLogos_32_ont.png" Name="ont.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ont.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ost.png" Guid="4cd04229-37f4-4c22-a46b-3a6b25dfbf16">
+				<File Id="Images_CryptoLogos_32_ost.png" Name="ost.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ost.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ox.png" Guid="3d0344d2-3a91-4661-b1f1-369c707cef4f">
+				<File Id="Images_CryptoLogos_32_ox.png" Name="ox.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ox.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_pac.png" Guid="140b6516-3abe-403f-b3e0-d8b99159ac31">
+				<File Id="Images_CryptoLogos_32_pac.png" Name="pac.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\pac.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_part.png" Guid="6124d33e-2e93-458f-a40c-c1b26d56a59d">
+				<File Id="Images_CryptoLogos_32_part.png" Name="part.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\part.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_pasl.png" Guid="c565c8da-2e3c-4ff1-8726-98c49be0b899">
+				<File Id="Images_CryptoLogos_32_pasl.png" Name="pasl.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\pasl.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_pivx.png" Guid="5239bac0-9c4a-4faa-b453-753a9f7a1b62">
+				<File Id="Images_CryptoLogos_32_pivx.png" Name="pivx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\pivx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_plr.png" Guid="fc78cdd7-5df0-4ec8-b7f2-2b21888d9ad7">
+				<File Id="Images_CryptoLogos_32_plr.png" Name="plr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\plr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_poa.png" Guid="6a42abc6-06b1-4551-8adb-dd473815eb78">
+				<File Id="Images_CryptoLogos_32_poa.png" Name="poa.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\poa.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_poe.png" Guid="939a6d23-aa3f-4cc2-a488-b90ea3c0d1e3">
+				<File Id="Images_CryptoLogos_32_poe.png" Name="poe.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\poe.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_poly.png" Guid="0d03eaa5-8602-4ac7-91be-ba7a5923b16c">
+				<File Id="Images_CryptoLogos_32_poly.png" Name="poly.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\poly.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_pot.png" Guid="de3b1bb6-4fab-4469-8876-62e551220e08">
+				<File Id="Images_CryptoLogos_32_pot.png" Name="pot.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\pot.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ppc.png" Guid="5f5b81d9-65e1-4dfc-91fb-297bd6858b88">
+				<File Id="Images_CryptoLogos_32_ppc.png" Name="ppc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ppc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_powr.png" Guid="a8997fa4-358b-48a0-8a0c-141df1f6f011">
+				<File Id="Images_CryptoLogos_32_powr.png" Name="powr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\powr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ppp.png" Guid="20ab9c57-9801-450b-8c70-b0cf50678285">
+				<File Id="Images_CryptoLogos_32_ppp.png" Name="ppp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ppp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ppt.png" Guid="7f33bd1f-dc91-4a5a-9d9f-c80d21cc2b93">
+				<File Id="Images_CryptoLogos_32_ppt.png" Name="ppt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ppt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_prl.png" Guid="f561dc0f-5316-4212-976c-67ebb9b23062">
+				<File Id="Images_CryptoLogos_32_prl.png" Name="prl.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\prl.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_pura.png" Guid="a4078f1c-4d1e-4411-a8ea-0d37540a55ae">
+				<File Id="Images_CryptoLogos_32_pura.png" Name="pura.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\pura.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_pxc.png" Guid="19cb9b14-ceed-4987-a89c-600e2e36e269">
+				<File Id="Images_CryptoLogos_32_pxc.png" Name="pxc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\pxc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_qash.png" Guid="1700cc1d-a0c3-4681-99ef-a72bd6deccf0">
+				<File Id="Images_CryptoLogos_32_qash.png" Name="qash.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\qash.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_qiwi.png" Guid="f36443b3-6ebb-48a9-93cc-0055d814a1cf">
+				<File Id="Images_CryptoLogos_32_qiwi.png" Name="qiwi.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\qiwi.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_qlc.png" Guid="2c0d6d4a-32b3-4be9-80bc-772d20c9726c">
+				<File Id="Images_CryptoLogos_32_qlc.png" Name="qlc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\qlc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_qrl.png" Guid="7b4e89a4-7ead-4758-ada3-0410dec8a254">
+				<File Id="Images_CryptoLogos_32_qrl.png" Name="qrl.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\qrl.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_qsp.png" Guid="2567d7ee-ee87-43b0-aa4e-8ebecd3372f0">
+				<File Id="Images_CryptoLogos_32_qsp.png" Name="qsp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\qsp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_qtum.png" Guid="f6177bc0-c815-4ea6-846e-2db50a900cb6">
+				<File Id="Images_CryptoLogos_32_qtum.png" Name="qtum.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\qtum.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_r.png" Guid="40ff1fe2-9438-4c76-a273-9d6c059be47d">
+				<File Id="Images_CryptoLogos_32_r.png" Name="r.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\r.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rads.png" Guid="4a983077-d1a8-40a9-bcf4-f48882c12136">
+				<File Id="Images_CryptoLogos_32_rads.png" Name="rads.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rads.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rcn.png" Guid="34d449ec-6a00-4fab-ab5e-a8c12e3bac23">
+				<File Id="Images_CryptoLogos_32_rcn.png" Name="rcn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rcn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rdd.png" Guid="3b6044a6-1736-4c24-85a1-c9259769b846">
+				<File Id="Images_CryptoLogos_32_rdd.png" Name="rdd.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rdd.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rdn.png" Guid="400c6b7a-e52e-462e-b6b1-f15b8f58e312">
+				<File Id="Images_CryptoLogos_32_rdn.png" Name="rdn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rdn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rep.png" Guid="aa5b6a9c-e26a-483f-9158-55bc614a71bb">
+				<File Id="Images_CryptoLogos_32_rep.png" Name="rep.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rep.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_req.png" Guid="70201356-c05a-47b3-9172-a5eafa551652">
+				<File Id="Images_CryptoLogos_32_req.png" Name="req.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\req.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rhoc.png" Guid="5930c983-ddcc-475c-abfe-8bdf66c8ac45">
+				<File Id="Images_CryptoLogos_32_rhoc.png" Name="rhoc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rhoc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ric.png" Guid="8ea25884-286e-4e8d-a0ab-641a7ba7bcdf">
+				<File Id="Images_CryptoLogos_32_ric.png" Name="ric.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ric.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rise.png" Guid="e46c4a22-4894-429b-8124-a359d8d41dea">
+				<File Id="Images_CryptoLogos_32_rise.png" Name="rise.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rise.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rlc.png" Guid="309d3c46-0cdd-44ea-8985-3f43b0c00dac">
+				<File Id="Images_CryptoLogos_32_rlc.png" Name="rlc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rlc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rpx.png" Guid="e3760b77-0755-4a6b-aae5-2feebcbaa164">
+				<File Id="Images_CryptoLogos_32_rpx.png" Name="rpx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rpx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rub.png" Guid="84f37c0a-b03f-4a78-8a96-2669e1fd031b">
+				<File Id="Images_CryptoLogos_32_rub.png" Name="rub.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rub.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_rvn.png" Guid="baacf3ca-ca60-4f54-99c6-34bafb08bd0c">
+				<File Id="Images_CryptoLogos_32_rvn.png" Name="rvn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\rvn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_salt.png" Guid="83d7da06-f093-4fce-9e61-17337b5bca08">
+				<File Id="Images_CryptoLogos_32_salt.png" Name="salt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\salt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_san.png" Guid="5890b4b1-6294-4e25-99bc-e205a3ba8eee">
+				<File Id="Images_CryptoLogos_32_san.png" Name="san.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\san.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_sbd.png" Guid="3a07f189-d060-4133-98a8-b23bb1f134d1">
+				<File Id="Images_CryptoLogos_32_sbd.png" Name="sbd.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\sbd.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_sberbank.png" Guid="edd9f883-0876-442b-b208-6bc160dec66b">
+				<File Id="Images_CryptoLogos_32_sberbank.png" Name="sberbank.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\sberbank.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_sc.png" Guid="64a91277-ae46-4919-98e8-d7876651afa9">
+				<File Id="Images_CryptoLogos_32_sc.png" Name="sc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\sc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_sky.png" Guid="9fa79179-d738-4f35-931a-aeddd9cbc4eb">
+				<File Id="Images_CryptoLogos_32_sky.png" Name="sky.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\sky.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_slr.png" Guid="e5e7c28a-a8e8-465b-971b-da60ddcda9d8">
+				<File Id="Images_CryptoLogos_32_slr.png" Name="slr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\slr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_sls.png" Guid="0f6667fd-a832-4b9b-9c88-b234e57bcfd8">
+				<File Id="Images_CryptoLogos_32_sls.png" Name="sls.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\sls.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_smart.png" Guid="07607862-1213-4e0c-8133-26f48b7832be">
+				<File Id="Images_CryptoLogos_32_smart.png" Name="smart.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\smart.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_sngls.png" Guid="f331f7cd-f0d0-4448-b9fa-00389c88a845">
+				<File Id="Images_CryptoLogos_32_sngls.png" Name="sngls.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\sngls.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_snm.png" Guid="606cfefc-275c-42e2-a8ab-d645f24863ce">
+				<File Id="Images_CryptoLogos_32_snm.png" Name="snm.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\snm.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_snt.png" Guid="f6687bd0-508b-43b3-ab9e-bebe387aa430">
+				<File Id="Images_CryptoLogos_32_snt.png" Name="snt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\snt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_spank.png" Guid="e8daf36c-6386-4022-b060-07c6f160676a">
+				<File Id="Images_CryptoLogos_32_spank.png" Name="spank.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\spank.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_sphtx.png" Guid="4f5337ca-be9b-40c8-a515-953427306f01">
+				<File Id="Images_CryptoLogos_32_sphtx.png" Name="sphtx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\sphtx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_steem.png" Guid="b5728071-8420-4dec-9f88-f8f27c6f3e7e">
+				<File Id="Images_CryptoLogos_32_steem.png" Name="steem.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\steem.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_storj.png" Guid="a5e2af42-1dfc-4052-9115-a507415d963e">
+				<File Id="Images_CryptoLogos_32_storj.png" Name="storj.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\storj.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_start.png" Guid="f50a2d38-1489-41fd-a00d-48c0cceea977">
+				<File Id="Images_CryptoLogos_32_start.png" Name="start.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\start.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_srn.png" Guid="dbd348f8-f7f9-47e6-81d3-bdb4457c2e75">
+				<File Id="Images_CryptoLogos_32_srn.png" Name="srn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\srn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_strat.png" Guid="58f57f51-5998-4266-b401-efccd324241d">
+				<File Id="Images_CryptoLogos_32_strat.png" Name="strat.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\strat.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_sub.png" Guid="a19c5796-167f-4877-ac99-aa252a597252">
+				<File Id="Images_CryptoLogos_32_sub.png" Name="sub.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\sub.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_storm.png" Guid="0f6209de-843b-4e70-bf1f-6e1c84eb81c3">
+				<File Id="Images_CryptoLogos_32_storm.png" Name="storm.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\storm.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_sys.png" Guid="71363371-09c4-4a47-9cf1-9ac9edbec744">
+				<File Id="Images_CryptoLogos_32_sys.png" Name="sys.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\sys.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_taas.png" Guid="c326ddf2-df36-4f6a-ad16-1d769ae597cb">
+				<File Id="Images_CryptoLogos_32_taas.png" Name="taas.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\taas.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_tau.png" Guid="4df58841-812f-42da-8144-13c48c1815e1">
+				<File Id="Images_CryptoLogos_32_tau.png" Name="tau.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\tau.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_tkn.png" Guid="45ef135a-1588-4b19-8a15-d2e40c7f0935">
+				<File Id="Images_CryptoLogos_32_tkn.png" Name="tkn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\tkn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_tnb.png" Guid="ecbbe1f1-3068-4b10-9fec-4373630d126b">
+				<File Id="Images_CryptoLogos_32_tnb.png" Name="tnb.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\tnb.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_tnt.png" Guid="0ca71192-43f4-4375-acb4-d172497c17a2">
+				<File Id="Images_CryptoLogos_32_tnt.png" Name="tnt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\tnt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_trig.png" Guid="819f1f59-906b-4734-8e5e-3c9abcf6505d">
+				<File Id="Images_CryptoLogos_32_trig.png" Name="trig.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\trig.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_tnc.png" Guid="cdd39fed-272e-4195-ae49-355702b95e7a">
+				<File Id="Images_CryptoLogos_32_tnc.png" Name="tnc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\tnc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_tzc.png" Guid="04d49d2b-7628-48f7-9b3c-9e1dbd5ccefc">
+				<File Id="Images_CryptoLogos_32_tzc.png" Name="tzc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\tzc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_trx.png" Guid="60addd04-55f9-4711-b792-e6f6240577c7">
+				<File Id="Images_CryptoLogos_32_trx.png" Name="trx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\trx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ubq.png" Guid="6076a600-abf7-4a3d-9f7c-d3f88928b015">
+				<File Id="Images_CryptoLogos_32_ubq.png" Name="ubq.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ubq.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_unity.png" Guid="84b4487d-8c2c-4153-83af-30f6fd7819f8">
+				<File Id="Images_CryptoLogos_32_unity.png" Name="unity.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\unity.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_usd.png" Guid="a3224d8b-1b1b-4190-9efb-70826f4e0186">
+				<File Id="Images_CryptoLogos_32_usd.png" Name="usd.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\usd.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_usdt.png" Guid="49d235a9-f93a-48a5-9e4e-f94d8ca8ac4c">
+				<File Id="Images_CryptoLogos_32_usdt.png" Name="usdt.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\usdt.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_utk.png" Guid="625eb348-8e07-4127-836e-a1b716294187">
+				<File Id="Images_CryptoLogos_32_utk.png" Name="utk.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\utk.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_ven.png" Guid="3b4438bd-3072-4bdf-b097-4f6d6afa73e9">
+				<File Id="Images_CryptoLogos_32_ven.png" Name="ven.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\ven.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_veri.png" Guid="7018c84e-a614-42fb-8c35-643675093d42">
+				<File Id="Images_CryptoLogos_32_veri.png" Name="veri.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\veri.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_via.png" Guid="43b847e4-9d42-4255-bc0c-2253f043adc9">
+				<File Id="Images_CryptoLogos_32_via.png" Name="via.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\via.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_vib.png" Guid="fe8bab9c-d5ec-47b0-b6e6-83c575403122">
+				<File Id="Images_CryptoLogos_32_vib.png" Name="vib.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\vib.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_vibe.png" Guid="5a3069b1-1dba-4fc8-9576-be39f6e5a8e4">
+				<File Id="Images_CryptoLogos_32_vibe.png" Name="vibe.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\vibe.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_vivo.png" Guid="52eceb0c-8d43-4998-89fd-b06b630e6ec2">
+				<File Id="Images_CryptoLogos_32_vivo.png" Name="vivo.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\vivo.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_wan.png" Guid="448a8a52-4542-43b6-a421-512c3914648e">
+				<File Id="Images_CryptoLogos_32_wan.png" Name="wan.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\wan.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_waves.png" Guid="3908ebfb-fe5d-4862-a3c3-4bdb1488887a">
+				<File Id="Images_CryptoLogos_32_waves.png" Name="waves.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\waves.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_wax.png" Guid="04ea4ac5-ed43-4402-9531-2183dc98af9c">
+				<File Id="Images_CryptoLogos_32_wax.png" Name="wax.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\wax.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_wgr.png" Guid="bef11701-f39c-4e45-9e62-019380acc62c">
+				<File Id="Images_CryptoLogos_32_wgr.png" Name="wgr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\wgr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_wings.png" Guid="4ac3769b-7afe-4f71-93ed-b9a62ccf5fb9">
+				<File Id="Images_CryptoLogos_32_wings.png" Name="wings.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\wings.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_wpr.png" Guid="2546a70b-7cbd-4f45-9879-448ba7cc65c0">
+				<File Id="Images_CryptoLogos_32_wpr.png" Name="wpr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\wpr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_wtc.png" Guid="22b6311d-6d93-4f33-a081-7a7b901bc4f2">
+				<File Id="Images_CryptoLogos_32_wtc.png" Name="wtc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\wtc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xas.png" Guid="edc80cb6-af2f-448f-9552-03cfb72c7f7e">
+				<File Id="Images_CryptoLogos_32_xas.png" Name="xas.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xas.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xbc.png" Guid="04e49303-b5bf-48c7-9529-5da97d4c80c3">
+				<File Id="Images_CryptoLogos_32_xbc.png" Name="xbc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xbc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xby.png" Guid="b2bb65c2-cdd8-4369-a630-61d00ab07a71">
+				<File Id="Images_CryptoLogos_32_xby.png" Name="xby.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xby.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xcp.png" Guid="98c9f6be-d3b9-4908-ac6b-bb622c58ea1a">
+				<File Id="Images_CryptoLogos_32_xcp.png" Name="xcp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xcp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xdn.png" Guid="e8e8750f-aeee-4f59-9f67-79f627e3e161">
+				<File Id="Images_CryptoLogos_32_xdn.png" Name="xdn.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xdn.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xem.png" Guid="0c231c5e-1c85-483a-89da-1dc8e8c893f1">
+				<File Id="Images_CryptoLogos_32_xem.png" Name="xem.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xem.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xlm.png" Guid="eda28a36-f071-49c0-942d-7dabe6a8b3ee">
+				<File Id="Images_CryptoLogos_32_xlm.png" Name="xlm.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xlm.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xmg.png" Guid="c3dd8b2a-abfc-4d1f-b6dd-7a6284c8207b">
+				<File Id="Images_CryptoLogos_32_xmg.png" Name="xmg.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xmg.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xmr.png" Guid="5f214d3f-1059-44f6-a186-f51ceb7929ad">
+				<File Id="Images_CryptoLogos_32_xmr.png" Name="xmr.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xmr.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xmy.png" Guid="b92d3cd3-e9ee-4864-bbd4-0a4f6e40b085">
+				<File Id="Images_CryptoLogos_32_xmy.png" Name="xmy.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xmy.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xp.png" Guid="f91a9eb7-bd47-4139-a32c-ea595ab3bd9c">
+				<File Id="Images_CryptoLogos_32_xp.png" Name="xp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xpa.png" Guid="89802a80-4a1a-4375-9f4a-676d8957b4e9">
+				<File Id="Images_CryptoLogos_32_xpa.png" Name="xpa.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xpa.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xpm.png" Guid="285f0890-e202-4486-a6d4-66e1ac1d34ca">
+				<File Id="Images_CryptoLogos_32_xpm.png" Name="xpm.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xpm.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xrb.png" Guid="9d4ee3b3-0190-4079-9a5b-c142a40f8af4">
+				<File Id="Images_CryptoLogos_32_xrb.png" Name="xrb.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xrb.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xrp.png" Guid="a87a5f70-9e79-4d69-ac9a-b1cc0ebba59f">
+				<File Id="Images_CryptoLogos_32_xrp.png" Name="xrp.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xrp.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xtz.png" Guid="5b5d58b5-6b46-4130-9f5e-5eb2b9a1e134">
+				<File Id="Images_CryptoLogos_32_xtz.png" Name="xtz.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xtz.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xuc.png" Guid="c824d3ce-9d18-4123-8916-236c3ee315d0">
+				<File Id="Images_CryptoLogos_32_xuc.png" Name="xuc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xuc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xvc.png" Guid="1a3bc502-052f-48b3-b57b-f720eff65d6e">
+				<File Id="Images_CryptoLogos_32_xvc.png" Name="xvc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xvc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xvg.png" Guid="d8b3336e-2352-4ef2-83c2-932fc148ca7e">
+				<File Id="Images_CryptoLogos_32_xvg.png" Name="xvg.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xvg.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_xzc.png" Guid="3e48bb8f-f0d6-49f3-9770-ed1b135d14a2">
+				<File Id="Images_CryptoLogos_32_xzc.png" Name="xzc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\xzc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_yoyow.png" Guid="285bb34a-4c0f-4b4a-8b46-6213d010be7a">
+				<File Id="Images_CryptoLogos_32_yoyow.png" Name="yoyow.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\yoyow.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_zcl.png" Guid="7b96a6ff-4ff5-4375-99a2-3da5675bd0e1">
+				<File Id="Images_CryptoLogos_32_zcl.png" Name="zcl.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\zcl.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_zec.png" Guid="4d54e1a6-e1f8-4497-9f92-9337745ddd29">
+				<File Id="Images_CryptoLogos_32_zec.png" Name="zec.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\zec.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_zen.png" Guid="6006105f-9d26-4bd6-bffd-b228fc775a84">
+				<File Id="Images_CryptoLogos_32_zen.png" Name="zen.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\zen.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_zil.png" Guid="6b2e318a-c8b0-4aa2-9113-05b41e75612d">
+				<File Id="Images_CryptoLogos_32_zil.png" Name="zil.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\zil.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_zrx.png" Guid="0a993d87-9f38-45ab-be65-a83de384eea9">
+				<File Id="Images_CryptoLogos_32_zrx.png" Name="zrx.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\zrx.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_vrc.png" Guid="34a20a30-0e3d-4a2c-a9ae-4c8e27638484">
+				<File Id="Images_CryptoLogos_32_vrc.png" Name="vrc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\vrc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_vtc.png" Guid="f6d0edc6-5b7d-4652-80fa-d5b721601a04">
+				<File Id="Images_CryptoLogos_32_vtc.png" Name="vtc.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\vtc.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_wabi.png" Guid="d0d9792a-1a30-4d01-ac7a-afd7434045df">
+				<File Id="Images_CryptoLogos_32_wabi.png" Name="wabi.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\wabi.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_tel.png" Guid="4c29ea93-f704-4079-b524-adfc6a7d66ce">
+				<File Id="Images_CryptoLogos_32_tel.png" Name="tel.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\tel.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_theta.png" Guid="ec243e89-507e-4907-bf74-b1e2e22b59aa">
+				<File Id="Images_CryptoLogos_32_theta.png" Name="theta.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\theta.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_tix.png" Guid="4203cc18-66f5-4402-91e6-d2ede675adcb">
+				<File Id="Images_CryptoLogos_32_tix.png" Name="tix.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\tix.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_pay.png" Guid="81574baf-18fe-42c4-b2b1-229a033bbd9a">
+				<File Id="Images_CryptoLogos_32_pay.png" Name="pay.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\pay.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_pink.png" Guid="67a6dc15-a6e4-44bd-b1d6-ab1363b74421">
+				<File Id="Images_CryptoLogos_32_pink.png" Name="pink.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\pink.png" />
+			</Component>
+			<Component Id="Images_CryptoLogos_32_pirl.png" Guid="07dbe4cb-d3dc-4a17-af7c-efa8fb97a2bc">
+				<File Id="Images_CryptoLogos_32_pirl.png" Name="pirl.png" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Images\CryptoLogos\32\pirl.png" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="x86_files" Directory="DIR_x86">
+			<Component Id="SQLite_x86.Interop.dll" Guid="7BC09986-B4D6-489F-8859-00B9F60930FB">
+				<File Id="SQLite_x86.Interop.dll" Name="SQLite.Interop.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)x86\SQLite.Interop.dll" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="x64_files" Directory="DIR_x64">
+			<Component Id="SQLite_x64.Interop.dll" Guid="FFEAD78E-ECB9-43C8-A704-EA17FE4829E9">
+				<File Id="SQLite_x64.Interop.dll" Name="SQLite.Interop.dll" Source="$(var.Buzzilio.Begrip.Core_TargetDir)x64\SQLite.Interop.dll" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="Scripts_Creation_files" Directory="Scripts_Creation">
+			<Component Id="Scripts_Creation_CreateDatabase.query" Guid="043228ed-e93d-4713-9898-b6c261836e60">
+				<File Id="Scripts_Creation_CreateDatabase.query" Name="CreateDatabase.query" Source="$(var.Buzzilio.Begrip.Database_TargetDir)Scripts\Creation\CreateDatabase.query" />
+			</Component>
+			<Component Id="Scripts_Creation_PopulateDatabase.query" Guid="ea92ba24-4aa6-4ccc-88f4-81dbbb3d9ad5">
+				<File Id="Scripts_Creation_PopulateDatabase.query" Name="PopulateDatabase.query" Source="$(var.Buzzilio.Begrip.Database_TargetDir)Scripts\Creation\PopulateDatabase.query" />
+			</Component>
+			<Component Id="Scripts_Creation_PopulateDefaultConfigurations.query" Guid="4361df56-e2d9-428c-87b8-dde2c5bf9dbb">
+				<File Id="Scripts_Creation_PopulateDefaultConfigurations.query" Name="PopulateDefaultConfigurations.query" Source="$(var.Buzzilio.Begrip.Database_TargetDir)Scripts\Creation\PopulateDefaultConfigurations.query" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="CCMiner_files" Directory="CCMiner">
+			<Component Id="CCMiner_ccminer_x64.exe" Guid="2b2f13e7-be22-42c8-85b1-702482b2b0ef">
+				<File Id="CCMiner_ccminer_x64.exe" Name="ccminer-x64.exe" Source="$(var.Buzzilio.Begrip.Miner_TargetDir)CCMiner\ccminer-x64.exe" />
+			</Component>
+			<Component Id="CCMiner_msvcr120.dll" Guid="2aa20e1e-6610-4da5-8185-bc46ac2a05ab">
+				<File Id="CCMiner_msvcr120.dll" Name="msvcr120.dll" Source="$(var.Buzzilio.Begrip.Miner_TargetDir)CCMiner\msvcr120.dll" />
+			</Component>
+			<Component Id="CCMiner_README.txt" Guid="63b6a2d4-deda-43b5-a329-5bb32be8edb0">
+				<File Id="CCMiner_README.txt" Name="README.txt" Source="$(var.Buzzilio.Begrip.Miner_TargetDir)CCMiner\README.txt" />
+			</Component>
+			<Component Id="CCMiner_ccminer.conf" Guid="20ebdbc4-132e-4de8-a8fa-d41da16e9c1d">
+				<File Id="CCMiner_ccminer.conf" Name="ccminer.conf" Source="$(var.Buzzilio.Begrip.Miner_TargetDir)CCMiner\ccminer.conf" />
+			</Component>
+			<Component Id="CCMiner_RUN_BTX_YIIMP.cmd" Guid="dd217dab-e8eb-4709-83ff-5ead4059697d">
+				<File Id="CCMiner_RUN_BTX_YIIMP.cmd" Name="RUN-BTX-YIIMP.cmd" Source="$(var.Buzzilio.Begrip.Miner_TargetDir)CCMiner\RUN-BTX-YIIMP.cmd" />
+			</Component>
+			<Component Id="CCMiner_RUN_CREA.cmd" Guid="3bd9446e-ae7e-4f55-a087-0a5538347e7b">
+				<File Id="CCMiner_RUN_CREA.cmd" Name="RUN-CREA.cmd" Source="$(var.Buzzilio.Begrip.Miner_TargetDir)CCMiner\RUN-CREA.cmd" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="Legal_files" Directory="Legal">
+			<Component Id="Legal_eula.txt" Guid="ceadba77-a509-4cb4-873c-ccc5078f6c08">
+				<File Id="Legal_eula.txt" Name="eula.txt" Source="$(var.Buzzilio.Begrip.Resources_TargetDir)Legal\eula.txt" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
