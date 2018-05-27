@@ -1,0 +1,63 @@
+CREATE TABLE ApplicationVersions (
+    ApplicationVersionId INTEGER PRIMARY KEY NOT NULL,
+    SoftwareVersion      TEXT UNIQUE NOT NULL,
+	ReleaseName			 TEXT UNIQUE NOT NULL,	
+    DatabaseVersion      TEXT UNIQUE NOT NULL,
+    UpdateScript         INTEGER UNIQUE NOT NULL
+);
+
+CREATE TABLE Configurations (
+    ConfigurationId            INTEGER PRIMARY KEY NOT NULL,
+	CryptoId		           INTEGER NOT NULL,	
+    AlgorithmId				   INTEGER NOT NULL DEFAULT 1,
+    Intensity                  TEXT NOT NULL,
+    GPUStats				   TEXT NOT NULL,
+	Username				   TEXT NOT NULL,
+	Password				   TEXT NOT NULL,
+	Wallet					   TEXT NOT NULL,	
+    PoolURL				       TEXT NOT NULL,
+	SupportsParams			   INTEGER NOT NULL DEFAULT 0,	
+    IsFavourite				   INTEGER NOT NULL DEFAULT 0,
+	IsDefault				   INTEGER NOT NULL DEFAULT 0,
+	FOREIGN				       KEY(CryptoId) REFERENCES Cryptos(CryptoId) ON UPDATE CASCADE ON DELETE SET DEFAULT
+	FOREIGN				       KEY(AlgorithmId) REFERENCES Algorithms(AlgorithmId) ON UPDATE CASCADE ON DELETE SET DEFAULT
+);
+
+CREATE TABLE Cryptos (
+   CryptoId      INTEGER PRIMARY KEY NOT NULL,
+   CryptoName    TEXT UNIQUE NOT NULL,
+   CryptoSymbol  TEXT UNIQUE NOT NULL,
+   CryptoLogo    TEXT UNIQUE NOT NULL,
+   CryptoWebsite TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE Algorithms (
+   AlgorithmId      INTEGER PRIMARY KEY NOT NULL,
+   AlgorithmName    TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE AssignedAlgorithms (
+   AssignedAlgorithmId      INTEGER PRIMARY KEY NOT NULL,
+   AlgorithmId				INTEGER DEFAULT 1 NOT NULL,
+   CryptoId					INTEGER DEFAULT 1 NOT NULL,
+   FOREIGN					KEY(AlgorithmId) REFERENCES Algorithms(AlgorithmId) ON UPDATE CASCADE ON DELETE SET DEFAULT,
+   FOREIGN				    KEY(CryptoId) REFERENCES Cryptos(CryptoId) ON UPDATE CASCADE ON DELETE SET DEFAULT   	
+);
+
+CREATE TABLE UserSettings (
+    UserSettingsId		 INTEGER PRIMARY KEY NOT NULL,
+    ShareTime			 TEXT NOT NULL DEFAULT 10,
+	MaxConcurrentMiners  TEXT NOT NULL DEFAULT 1,
+    DefaultTheme		 TEXT NOT NULL,
+	DisclaimerIsEnabled  INTEGER NOT NULL DEFAULT 1,
+	DisclaimerText		 TEXT NOT NULL,
+	IsDefault			 INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE Libraries (
+   LibraryId		  INTEGER PRIMARY KEY NOT NULL,
+   LibraryName		  TEXT UNIQUE NOT NULL,
+   LibraryAuthor	  TEXT NOT NULL,
+   LibraryLicense	  TEXT NOT NULL,
+   LibrarySourceLink  TEXT UNIQUE NOT NULL
+);

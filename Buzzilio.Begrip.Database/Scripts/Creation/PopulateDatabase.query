@@ -1,0 +1,50 @@
+INSERT INTO ApplicationVersions (ApplicationVersionId, SoftwareVersion, ReleaseName, DatabaseVersion, UpdateScript)  
+VALUES (0, "0.0.1", "conure", "0.0.1", 0);
+
+INSERT INTO Cryptos (CryptoId, CryptoName, CryptoSymbol, CryptoLogo, CryptoWebsite)  
+VALUES (1, "Verge", "XVG", "xvg@2x.png", "https://vergecurrency.com"), 
+	   (2, "Electroneum", "ETN", "etn@2x.png", "https://electroneum.com"),
+	   (3, "GoByte", "GBX", "gbx@2x.png", "https://gobyte.network"),
+	   (4, "Bitcoin Gold", "BTG", "btg@2x.png", "https://bitcoingold.org"),
+	   (5, "ZCoin", "XZC", "xzc@2x.png", "https://zcoin.io"),
+	   (6, "ZClassic", "ZCL", "zcl@2x.png", "https://zclassic.org"),
+	   (7, "ZENCash", "ZEN", "zen@2x.png", "https://zencash.com"),
+	   (8, "Komodo", "KMD", "kmd@2x.png", "https://komodoplatform.com"),
+	   (9, "Hush", "HUSH", "hush@2x.png", "https://myhush.org"),
+	   (10, "DashCoin", "Dash", "dash@2x.png", "https://www.dash.org"),
+	   (11, "Innova", "INN", "inn@2x.png", "https://innovacoin.info"),
+	   (12, "Vivo", "VIVO", "vivo@2x.png", "https://www.vivocrypto.com"),
+	   (13, "TrezarCoin", "TZC", "tzc@2x.png", "https://trezarcoin.com"),
+	   (14, "CrowdCoin", "CRC", "crc@2x.png", "http://crowdcoin.site"),
+	   (15, "FeatherCoin", "FTC", "ftc@2x.png", "https://www.feathercoin.com"),
+	   (16, "PhoenixCoin", "PXC", "pxc@2x.png", "http://phoenixcoin.org"),
+	   (17, "Karbo", "KRB", "krb@2x.png", "https://karbo.io"),
+	   (18, "ByteCoin", "BCN", "bcn@2x.png", "https://bytecoin.org"),
+	   (19,"DigitalNote", "XDN", "xdn@2x.png", "http://digitalnote.org"),
+	   (20, "MonaCoin", "MONA", "mona@2x.png", "https://monacoin.org"),
+	   (21, "GroestlCoin", "GRS", "grs@2x.png", "https://www.groestlcoin.org");
+
+INSERT INTO Algorithms (AlgorithmName)  
+VALUES ("x17"), 
+	   ("cryptonight"),
+	   ("lyra2v2"),
+	   ("neoscrypt"),
+	   ("equihash"),
+	   ("lyra2z"),
+	   ("x11"),
+	   ("scrypt"),
+	   ("groestl");
+
+INSERT INTO Libraries (LibraryName, LibraryAuthor, LibraryLicense, LibrarySourceLink)  
+VALUES ("CCMiner", "tpruvot", "GPL-3.0", "https://github.com/tpruvot/ccminer"), 
+	   ("ccminer-ui", "ThrDev", "GPL-3.0", "https://github.com/ThrDev/ccminer-ui"),
+	   ("Material Design", "ButchersBoy", "MIT", "https://github.com/ButchersBoy/MaterialDesignInXamlToolkit"),
+	   ("Dragablz", "ButchersBoy", "MIT", "https://github.com/ButchersBoy/Dragablz"),
+	   ("MahApps", "punker76", "MIT", "https://github.com/MahApps/MahApps.Metro"),
+	   ("SQLite", "Hwaci", "MS-PL", "https://www.sqlite.org"),
+	   ("MvvmLight", "lbugnion", "MIT", "https://github.com/lbugnion/mvvmlight"),
+	   ("QuartzNet", "quartznet", "Apache-2.0", "https://github.com/quartznet/quartznet"),
+	   ("Humanizer", "Humanizr", "MIT", "https://github.com/Humanizr/Humanizer"),
+	   ("NotifyIcon WPF", "Philipp Sumi", "CPOL-1.02", "https://bitbucket.org/hardcodet/notifyicon-wpf"),
+	   ("cryptocurrency-icons", "cjdowner", "CC0", "https://github.com/cjdowner/cryptocurrency-icons"),
+	   ("Pick Icon", "FreePik", "Flaticon Basic License", "https://www.freepik.com");
