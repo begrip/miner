@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Buzzilio.Begrip.Resources.Dictionaries"
+                    xmlns:clr="clr-namespace:System;assembly=mscorlib">
+
+    <clr:String x:Key="PICK_48_ICO">../pick48.ico</clr:String>
+
+</ResourceDictionary>

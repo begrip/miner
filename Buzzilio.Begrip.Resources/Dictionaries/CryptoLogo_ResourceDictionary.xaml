@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Buzzilio.Begrip.Resources.Dictionaries"
+                    xmlns:clr="clr-namespace:System;assembly=mscorlib">
+
+    <clr:String x:Key="ETN_64_PNG">/Buzzilio.Begrip.Resources;component/Images/Logos/64/etn@2x.png</clr:String>
+    <clr:String x:Key="XVG_64_PNG">/Buzzilio.Begrip.Resources;component/Images/Logos/64/xvg@2x.png</clr:String>
+
+</ResourceDictionary>

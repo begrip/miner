@@ -1,0 +1,50 @@
+﻿<ResourceDictionary x:Class="Buzzilio.Begrip.Resources.Dictionaries.ColourResourceDictionary"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- FLAT COLOURS -->
+    <!-- Reds -->
+    <Color x:Key="OLD_BRICK_COLOUR">#96281B</Color>
+
+    <!-- Whites -->
+    <Color x:Key="PLAIN_WHITE_COLOUR">#FFFFFF</Color>
+    <Color x:Key="CLOUDS_COLOUR">#ecf0f1</Color>
+
+    <!-- Greens -->
+    <Color x:Key="EUCALYPTUS_COLOUR">#26A65B</Color>
+
+    <!-- Blues -->
+    <Color x:Key="CURIOUS_BLUE_COLOUR">#3498DB</Color>
+
+    <!-- Grays -->
+    <Color x:Key="WET_ASPHALT_COLOUR">#34495E</Color>
+    <Color x:Key="MIDNIGHT_BLUE_COLOUR">#2c3e50</Color>
+    <Color x:Key="CONCRETE_COLOUR">#95a5a6</Color>
+    <Color x:Key="SILVER_COLOUR">#bdc3c7</Color>
+
+    <!-- FLAT BRUSHES -->
+    <!-- Reds -->
+    <SolidColorBrush x:Key="OLD_BRICK" Color="{ StaticResource OLD_BRICK_COLOUR }"/>
+
+    <!-- Whites -->
+    <SolidColorBrush x:Key="PLAIN_WHITE" Color="{ StaticResource PLAIN_WHITE_COLOUR }" />
+    <SolidColorBrush x:Key="CLOUDS_WHITE" Color="{ StaticResource CLOUDS_COLOUR }" />
+
+    <!-- Greens -->
+    <SolidColorBrush x:Key="EUCALYPTUS" Color="{ StaticResource EUCALYPTUS_COLOUR }" />
+
+    <!-- Blues -->
+    <SolidColorBrush x:Key="CURIOUS_BLUE" Color="{ StaticResource CURIOUS_BLUE_COLOUR }" />
+
+    <!-- Grays -->
+    <SolidColorBrush x:Key="WET_ASPHALT" Color="{ StaticResource WET_ASPHALT_COLOUR }" />
+    <SolidColorBrush x:Key="MIDNIGHT_BLUE" Color="{ StaticResource MIDNIGHT_BLUE_COLOUR }" />
+    <SolidColorBrush x:Key="CONCRETE" Color="{ StaticResource CONCRETE_COLOUR }" />
+    <SolidColorBrush x:Key="SILVER" Color="{ StaticResource SILVER_COLOUR }" />
+
+    <!-- NON-FLAT COLOURS -->   
+    <SolidColorBrush x:Key="TextBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#FF999999" />
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#FF333333" />
+
+</ResourceDictionary>
