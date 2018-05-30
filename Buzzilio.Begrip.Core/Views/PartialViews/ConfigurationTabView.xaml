@@ -6,9 +6,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:converters="clr-namespace:Buzzilio.Begrip.Core.Converters"
              mc:Ignorable="d"
-             Height="Auto"
-             Width="Auto"
-             d:DesignHeight="720" d:DesignWidth="900">
+             Height="590"
+             Width="Auto" d:DesignWidth="900">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -20,8 +19,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="120"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0"
               MaxHeight="120">
@@ -65,7 +64,7 @@
                 </Grid>
             </materialDesign:Card>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Height="469" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="500"/>
                 <ColumnDefinition Width="400"/>
@@ -83,7 +82,9 @@
                     <Grid>
                         <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
                                 Command="{Binding ToggleMinersCommand}"
-                                ToolTip="{Binding StartTooltip}" Margin="267,0,-7,0">
+                                ToolTip="{Binding StartTooltip}" Margin="267,0,-7,0"
+                                Width="53"
+                                Height="53">
                             <materialDesign:PackIcon
                                 Kind="{Binding PlayIcon}"
                                 Height="36"
@@ -167,8 +168,8 @@
                                                            Foreground="White" 
                                                            ItemsSource="{Binding ConsoleOutput}" 
                                                            HorizontalAlignment="Left" 
-                                                           Height="164" 
-                                                           Margin="10,0,10,10" 
+                                                           Height="144" 
+                                                           Margin="10,0,0,10" 
                                                            Width="360">
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem">
@@ -190,7 +191,7 @@
                     </StackPanel>
                 </materialDesign:Card>
             </Grid>
-            <Grid HorizontalAlignment="Left" Margin="10,0,0,10" Width="480">
+            <Grid HorizontalAlignment="Left" Margin="10,0,0,18" Width="480">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -304,7 +305,6 @@
                                     Margin="0,10" />
                                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                     Grid.Row="1" 
-                                    Margin="0, 10" 
                                     Text="{Binding SelectedConfiguration.Username,UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"     
                                     materialDesign:HintAssist.Hint="Username"   
                                     TextWrapping="Wrap"

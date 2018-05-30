@@ -25,7 +25,7 @@
         ShowInTaskbar="{Binding SystemTrayViewModel.ShowInTaskbar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"              
         WindowState="{Binding SystemTrayViewModel.WindowState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         Title="{Binding AppHeaderMessage}" 
-        Height="780" 
+        Height="730" 
         Width="900" 
         MaxWidth="900"
         MaxHeight="780"              
